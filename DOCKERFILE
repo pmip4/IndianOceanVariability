@@ -16,4 +16,4 @@ RUN conda env create -f environment.yml --quiet
 RUN source activate climate
 
 # --- Script to run when starting the Docker image ---
-ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "climate", "jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--allow-root", "--no-browser", "&"]
+ENTRYPOINT ["conda", "run", "--no-capture-output", "-n", "climate", "jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--allow-root", "--no-browser"]

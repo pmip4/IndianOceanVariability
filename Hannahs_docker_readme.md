@@ -11,13 +11,13 @@
 * Download published image:
 
 ```
-docker pull woodwardsh/jupyter-climate:latest
+docker pull chrisbrierley/pmip4_iovar:latest
 ```
 
 * Run published image:
 
 ```
-docker run -i --rm --volume=${PWD}:/home/docker/jupyter-climate -w /home/docker/jupyter-climate -p 8888:8888 -t woodwardsh/jupyter-climate:latest
+docker run -i --rm --volume=${PWD}:/home/docker/jupyter-climate -w /home/docker/jupyter-climate -p 8888:8888 -t chrisbrierley/pmip4_iovar:latest
 ```
 
 Help:
@@ -44,7 +44,7 @@ git clone git@github.com:hannahwoodward/docker-jupyter-climate.git && cd docker-
 * Build image from Dockerfile (takes ~15 minutes):
 
 ```
-docker build -t jupyter-climate .
+docker build -t chrisbrierley/pmip4_iovar:latest .
 ```
 
 * Navigate to your project directory (i.e. with Jupyter notebook files)
@@ -67,8 +67,8 @@ Docker build options used:
 
 ```
 docker login
-docker tag jupyter-climate woodwardsh/jupyter-climate
-docker push woodwardsh/jupyter-climate
+docker tag jupyter-climate chrisbrierley/pmip4_iovar:latest
+docker push chrisbrierley/pmip4_iovar:latest
 ```
 
 

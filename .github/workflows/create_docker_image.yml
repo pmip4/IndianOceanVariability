@@ -16,6 +16,6 @@ jobs:
       with:
         username: "${{ secrets.DOCKERHUB_USERNAME }}"  
         password: "${{ secrets.DOCKERHUB_PASSWORD }}"  
-        image_name: IndianOceanVariability
+        image_name: pmip4_iovar
         push_git_tag: true
         push_image_and_stages: true

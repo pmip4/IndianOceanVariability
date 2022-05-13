@@ -57,16 +57,16 @@ begin
   else
     QUIET=False
   end if
-  ncfiles=systemfunc("ls "+data_dir+"/*.cvdp_enso.[0-9]*-*.nc")
+  ncfiles=systemfunc("ls "+data_dir+"/*.cvdp_data.[0-9]*-*.nc")
   if any(ismissing(ncfiles)) then
     if .not.QUIET then
-     print("find_files_wVar: There are no cvdp_enso netcdf files in "+data_dir+". You may want to run the download_cvdp_enso_data.sh script")
+     print("find_files_wVar: There are no cvdp_data netcdf files in "+data_dir+". You may want to run the download_cvdp_data_data.sh script")
     end if
     ncfiles_wVar="missing"
   else
     if any(ismissing(str_match_ind(ncfiles,name_str))) then
       if .not.QUIET then
-        print("find_files_wVar: There are no cvdp_enso netcdf files in "+data_dir+"/ containing the string "+name_str)
+        print("find_files_wVar: There are no cvdp_data netcdf files in "+data_dir+"/ containing the string "+name_str)
       end if
       ncfiles_wVar="missing"
     else
@@ -87,7 +87,7 @@ begin
       if all(.not.(dim_num(relevant).eq.dimsizes(variable_name))) then
         ncfiles_wVar="missing"
         if .not.QUIET then
-          print("find_files_wVar: There are no cvdp_enso netcdf files that contain "+name_str+" and have the requested variable")    
+          print("find_files_wVar: There are no cvdp_data netcdf files that contain "+name_str+" and have the requested variable")    
         end if
       else
         ncfiles_wVar=ncfiles_match(ind(dim_num(relevant).eq.dimsizes(variable_name)))
@@ -297,7 +297,7 @@ local name_str_a,name_str_b,variable_name,ncfile_wVar_a,ncfiles_wVar_b,match_cou
 begin
   if isStrSubset(name_str_b,name_str_a).or.isStrSubset(name_str_a,name_str_b) then
     print("find_pair_files_wVar: This program cannot work with one name string being a subset of the other")
-    print("find_pair_files_wVar:  You may want to rename your cvdp_enso files")
+    print("find_pair_files_wVar:  You may want to rename your cvdp_data files")
     exit
   end if
   ncfiles_wVar_a=find_files_wVar(name_str_a,variable_name)
@@ -322,7 +322,7 @@ begin
   end do
 
   if match_count.eq.0 then
-    print("find_pair_files_wVar: No matches found for cvdp_enso names that differ solely by having "+name_str_b+" instead of "+name_str_a+" at the end")
+    print("find_pair_files_wVar: No matches found for cvdp_data names that differ solely by having "+name_str_b+" instead of "+name_str_a+" at the end")
     ncfiles_wVar="missing"
   else
     ncfiles_wVar=ncfiles_wVar_both(ind(.not.ismissing(ncfiles_wVar_both(:,0))),:)
@@ -705,7 +705,7 @@ begin
   max_years=0
   names=ncfiles
   do file_i=0,dimsizes(ncfiles)-1
-    file_years=str_get_field(str_sub_str(ncfiles(file_i),".cvdp_enso.",":"),2,":")
+    file_years=str_get_field(str_sub_str(ncfiles(file_i),".cvdp_data.",":"),2,":")
     file_syear = stringtointeger(str_get_field(file_years,1,"-."))
     file_eyear = stringtointeger(str_get_field(file_years,2,"-."))
     length_years=file_eyear-file_syear+1
@@ -714,7 +714,7 @@ begin
       longest_file=file_i
     end if
     name_nopath=str_get_field(ncfiles(file_i),str_fields_count(ncfiles(file_i),"/"),"/")
-    names(file_i)=str_get_field(str_sub_str(name_nopath,".cvdp_enso.",":"),1,":")
+    names(file_i)=str_get_field(str_sub_str(name_nopath,".cvdp_data.",":"),1,":")
   end do
 
   ;determine if field is monthly or annual

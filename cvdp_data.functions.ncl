@@ -57,7 +57,7 @@ begin
   else
     QUIET=False
   end if
-  ncfiles=systemfunc("ls "+data_dir+"/*.cvdp_data.[0-9]*-*.nc "+data_dir+"/"+name_str+"/*.cvdp_data.[0-9]*-*.nc ")
+  ncfiles=systemfunc("ls "+data_dir+"/*.cvdp_data.[0-9]*-*.nc")
   if any(ismissing(ncfiles)) then
     if .not.QUIET then
      print("find_files_wVar: There are no cvdp_data netcdf files in "+data_dir+". You may want to run the download_cvdp_data_data.sh script")

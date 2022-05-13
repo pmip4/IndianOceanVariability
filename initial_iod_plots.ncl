@@ -17,19 +17,19 @@ gcms_all=(/"ACCESS-ESM1-5","AWI-CM-1-1-LR","BCC-CSM1-1","CCSM4","CESM2","CNRM-CM
 gcms_subset=(/"CCSM4","CNRM-CM5","FGOALS-g2","GISS-E2-R","IPSL-CM5A-LR","MIROC-ESM","MPI-ESM-P","MRI-CGCM3"/)
 
 ;some plot switches
-PLOT_TAS_HIST=False;if True, plot the mean DJF & JJA temperature changes across the ensemble and their biases
+PLOT_TAS_HIST=True;if True, plot the mean DJF & JJA temperature changes across the ensemble and their biases
 TS_NOT_TAS=False ;if True use SST rather TAS in the mean state figure
-PLOT_PR_HIST=False ;if True, plot the mean DJF & JJA precipiation changes across the ensemble and their biases
-PLOT_HIST_MODE=False ;if True, plot the ATL3 and AMM patterns in the C20 Reanalysis and the Historical Simulations 
-PLOT_TAS_ANOM=False ;if True, plot the mean DJF & JJA temperature changes across the ensemble and their biases
-PLOT_PR_ANOM=False ;if True, plot the mean DJF & JJA precipiation changes across the ensemble and their biases
-PLOT_PR_TELE_HIST=False ;if True, plot the precipitation patterns associated with the ATL3 and AMM indices in the C20 Reanalysis and the Historical Simulations 
-PLOT_MIDH=False ;if True, for the midHolocene plot the ensemble mean change in ATL3, AMM, and SASD pattern and (with amplitude up top)
-PLOT_LGM=False ;if True, for the LGM plot the ensemble mean change in ATL3, AMM, and SASD pattern and (with amplitude up top)
-PLOT_FUTURE=False ;if True, for the 1pctCO2 run plot the ensemble mean change in ATL3, AMM, and SASD pattern and (with amplitude up top)
+PLOT_PR_HIST=True ;if True, plot the mean DJF & JJA precipiation changes across the ensemble and their biases
+PLOT_HIST_MODE=True ;if True, plot the ATL3 and AMM patterns in the C20 Reanalysis and the Historical Simulations 
+PLOT_TAS_ANOM=True ;if True, plot the mean DJF & JJA temperature changes across the ensemble and their biases
+PLOT_PR_ANOM=True ;if True, plot the mean DJF & JJA precipiation changes across the ensemble and their biases
+PLOT_PR_TELE_HIST=True ;if True, plot the precipitation patterns associated with the ATL3 and AMM indices in the C20 Reanalysis and the Historical Simulations 
+PLOT_MIDH=True ;if True, for the midHolocene plot the ensemble mean change in ATL3, AMM, and SASD pattern and (with amplitude up top)
+PLOT_LGM=True ;if True, for the LGM plot the ensemble mean change in ATL3, AMM, and SASD pattern and (with amplitude up top)
+PLOT_FUTURE=True ;if True, for the 1pctCO2 run plot the ensemble mean change in ATL3, AMM, and SASD pattern and (with amplitude up top)
 ADD_PRECIP_TO_PLOT=True ;if True, then adds the precipitation regression patterns to these plots
 PLOT_TS=False ;if True, this spews out a series of timeseries (more for inspection than publication)
-PRINT_TABLE=False ;if True, create a table (in LaTeX format) showing the simulations used 
+PRINT_TABLE=True ;if True, create a table (in LaTeX format) showing the simulations used 
 GCM_DICTIONARY=False; if True, will not print model names, but alphabetic look up from table
 BARCHART=False ;if True, plot some barcharts showing how the amplitude (i.e. stddev of timeseries) changes for ATL3 and AMM (warning not relevant for Principal Component based timeseries as these are normalised)
 MAKE_INDIVIDUAL_PLOTS=False; if True will actually create the plots. ;Sets which experiment the barchart is created for (as index of expts array above)
@@ -46,7 +46,7 @@ OVERLAY_PREIND=True; Adds contour line overlays of the piControl values (to help
 ;;;;;
 
 paper_str="plots/IOD_plots_"
-data_dir="/home/p2f-v/public_html/PMIPVarData/cvdp_data"
+data_dir="/home/p2f-v/public_html/PMIPVarData/cvdp_files"
 if GCM_DICTIONARY then
   gcm_dict=createGCMsNameDictionary(data_dir,expts,mode_name+"_timeseries_mon")
 end if

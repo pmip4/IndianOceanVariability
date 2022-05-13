@@ -17,16 +17,16 @@ gcms_all=(/"ACCESS-ESM1-5","AWI-CM-1-1-LR","BCC-CSM1-1","CCSM4","CESM2","CNRM-CM
 gcms_subset=(/"CCSM4","CNRM-CM5","FGOALS-g2","GISS-E2-R","IPSL-CM5A-LR","MIROC-ESM","MPI-ESM-P","MRI-CGCM3"/)
 
 ;some plot switches
-PLOT_TAS_HIST=True;if True, plot the mean DJF & JJA temperature changes across the ensemble and their biases
+PLOT_TAS_HIST=False;if True, plot the mean DJF & JJA temperature changes across the ensemble and their biases
 TS_NOT_TAS=False ;if True use SST rather TAS in the mean state figure
-PLOT_PR_HIST=True ;if True, plot the mean DJF & JJA precipiation changes across the ensemble and their biases
-PLOT_HIST_MODE=True ;if True, plot the ATL3 and AMM patterns in the C20 Reanalysis and the Historical Simulations 
-PLOT_TAS_ANOM=True ;if True, plot the mean DJF & JJA temperature changes across the ensemble and their biases
-PLOT_PR_ANOM=True ;if True, plot the mean DJF & JJA precipiation changes across the ensemble and their biases
-PLOT_PR_TELE_HIST=True ;if True, plot the precipitation patterns associated with the ATL3 and AMM indices in the C20 Reanalysis and the Historical Simulations 
+PLOT_PR_HIST=False ;if True, plot the mean DJF & JJA precipiation changes across the ensemble and their biases
+PLOT_HIST_MODE=False ;if True, plot the ATL3 and AMM patterns in the C20 Reanalysis and the Historical Simulations 
+PLOT_TAS_ANOM=False ;if True, plot the mean DJF & JJA temperature changes across the ensemble and their biases
+PLOT_PR_ANOM=False ;if True, plot the mean DJF & JJA precipiation changes across the ensemble and their biases
+PLOT_PR_TELE_HIST=False ;if True, plot the precipitation patterns associated with the ATL3 and AMM indices in the C20 Reanalysis and the Historical Simulations 
 PLOT_MIDH=True ;if True, for the midHolocene plot the ensemble mean change in ATL3, AMM, and SASD pattern and (with amplitude up top)
-PLOT_LGM=True ;if True, for the LGM plot the ensemble mean change in ATL3, AMM, and SASD pattern and (with amplitude up top)
-PLOT_FUTURE=True ;if True, for the 1pctCO2 run plot the ensemble mean change in ATL3, AMM, and SASD pattern and (with amplitude up top)
+PLOT_LGM=False ;if True, for the LGM plot the ensemble mean change in ATL3, AMM, and SASD pattern and (with amplitude up top)
+PLOT_FUTURE=False ;if True, for the 1pctCO2 run plot the ensemble mean change in ATL3, AMM, and SASD pattern and (with amplitude up top)
 ADD_PRECIP_TO_PLOT=True ;if True, then adds the precipitation regression patterns to these plots
 PLOT_TS=False ;if True, this spews out a series of timeseries (more for inspection than publication)
 PRINT_TABLE=True ;if True, create a table (in LaTeX format) showing the simulations used 
@@ -48,7 +48,7 @@ OVERLAY_PREIND=True; Adds contour line overlays of the piControl values (to help
 paper_str="plots/IOD_plots_"
 data_dir="/home/p2f-v/public_html/PMIPVarData/cvdp_files"
 if GCM_DICTIONARY then
-  gcm_dict=createGCMsNameDictionary(data_dir,expts,mode_name+"_timeseries_mon")
+  gcm_dict=createGCMsNameDictionary(expts,mode_name+"_timeseries_mon")
 end if
 plot_letters=(/(/"a","b"/),(/"c","d"/),(/"e","f"/),(/"g","h"/),(/"i","j"/),(/"k","l"/)/)
 
@@ -58,9 +58,9 @@ plot_letters=(/(/"a","b"/),(/"c","d"/),(/"e","f"/),(/"g","h"/),(/"i","j"/),(/"k"
 if PLOT_HIST_MODE then
   ;Find some standard deviation for plot labelling
   RightStrings=new(3,string)
-  fname_obs=find_files_wVar(data_dir,"C20-Reanalysis",mode_name+"_timeseries_mon")
+  fname_obs=find_files_wVar("C20-Reanalysis",mode_name+"_timeseries_mon")
   RightStrings(0)=sprintf("%5.2f",stat_ts_var(fname_obs,mode_name+"_timeseries_mon","stddev",False))
-  fnames_hist=find_files_wVar(data_dir,expts(1),mode_name+"_timeseries_mon")
+  fnames_hist=find_files_wVar(expts(1),mode_name+"_timeseries_mon")
   stddevs=new(dimsizes(fnames_hist),float)
   do mod_i=0,dimsizes(fnames_hist)-1
     stddevs(mod_i)=stat_ts_var(fnames_hist(mod_i),mode_name+"_timeseries_mon","stddev",False)
@@ -68,7 +68,7 @@ if PLOT_HIST_MODE then
   RightStrings(1)=sprintf("%5.2f",avg(stddevs))
   delete(stddevs)
   if INC_PREIND_wHIST then
-    fnames_preind=find_files_wVar(data_dir,expts(0),mode_name+"_timeseries_mon")
+    fnames_preind=find_files_wVar(expts(0),mode_name+"_timeseries_mon")
     stddevs=new(dimsizes(fnames_preind),float)
     do mod_i=0,dimsizes(fnames_preind)-1
       stddevs(mod_i)=stat_ts_var(fnames_preind(mod_i),mode_name+"_timeseries_mon","stddev",False)
@@ -104,10 +104,10 @@ if PLOT_HIST_MODE then
   plotname@filetype=OUTPUT_TYPE
   plotname@VERBOSE=VERBOSE
   if INC_PREIND_wHIST then
-    plotCVDPcomparisonMaps(data_dir,(/"C20-Reanalysis",expts(1),expts(0)/),mode_name+"_pattern_mon",\
+    plotCVDPcomparisonMaps((/"C20-Reanalysis",expts(1),expts(0)/),mode_name+"_pattern_mon",\
           plotname,opt,opt_pan)
   else
-    plotCVDPcomparisonMaps(data_dir,(/"C20-Reanalysis",expts(1)/),mode_name+"_pattern_mon",\
+    plotCVDPcomparisonMaps((/"C20-Reanalysis",expts(1)/),mode_name+"_pattern_mon",\
           plotname,opt,opt_pan)
   end if
   delete([/RightStrings,fname_obs,fnames_hist,opt,opt_pan/])
@@ -161,10 +161,10 @@ if PLOT_TAS_HIST then
   opt_pan@lbLabelFontHeightF=0.016
   if TS_NOT_TAS then
     opt@gsnRightString="HadISST "+(/"DJF","JJA"/)
-    plotCVDPcomparisonMaps(data_dir,"HadISST",(/djf_field,jja_field/),wks,opt,opt_pan)
+    plotCVDPcomparisonMaps("HadISST",(/djf_field,jja_field/),wks,opt,opt_pan)
   else
     opt@gsnRightString="C20-Reanalysis"+(/"DJF","JJA"/)
-    plotCVDPcomparisonMaps(data_dir,"C20-Reanalysis",(/djf_field,jja_field/),wks,opt,opt_pan)
+    plotCVDPcomparisonMaps("C20-Reanalysis",(/djf_field,jja_field/),wks,opt,opt_pan)
   end if
   opt@cnFillPalette="CBR_coldhot"
   opt@cnLevelSelectionMode = "ExplicitLevels"   
@@ -182,9 +182,9 @@ if PLOT_TAS_HIST then
   end if
   opt_pan@dims=(/1,2/)
   if TS_NOT_TAS then
-    plotDiffEnsMnMaps(data_dir,expts(1),"HadISST",(/djf_field,jja_field/),wks,opt,opt_pan)
+    plotDiffEnsMnMaps(expts(1),"HadISST",(/djf_field,jja_field/),wks,opt,opt_pan)
   else
-    plotDiffEnsMnMaps(data_dir,expts(1),"C20-Reanalysis",(/djf_field,jja_field/),wks,opt,opt_pan)
+    plotDiffEnsMnMaps(expts(1),"C20-Reanalysis",(/djf_field,jja_field/),wks,opt,opt_pan)
   end if
   if INC_PREIND_wHIST then
     opt@cnFillPalette="CBR_coldhot"
@@ -198,9 +198,9 @@ if PLOT_TAS_HIST then
     opt_pan@gsnPanelTop=0.33
     opt_pan@dims=(/1,2/)
     if TS_NOT_TAS then
-      plotDiffEnsMnMaps(data_dir,expts(0),"HadISST",(/djf_field,jja_field/),wks,opt,opt_pan)
+      plotDiffEnsMnMaps(expts(0),"HadISST",(/djf_field,jja_field/),wks,opt,opt_pan)
     else
-      plotDiffEnsMnMaps(data_dir,expts(0),"C20-Reanalysis",(/djf_field,jja_field/),wks,opt,opt_pan)
+      plotDiffEnsMnMaps(expts(0),"C20-Reanalysis",(/djf_field,jja_field/),wks,opt,opt_pan)
     end if
   end if
   frame(wks)
@@ -254,7 +254,7 @@ if PLOT_TAS_ANOM then
     opt@gsnRightString=expts(i+2)+(/" DJF"," JJA"/)
     opt_pan@gsnPanelTop=1-(tofloat(i)/n_expts)
     opt_pan@gsnPanelBottom=1-(tofloat(i+1)/n_expts)
-    plotDiffEnsMnMaps(data_dir,expts(i+2),expts(0),(/"tas_spatialmean_djf","tas_spatialmean_jja"/),wks,opt,opt_pan)
+    plotDiffEnsMnMaps(expts(i+2),expts(0),(/"tas_spatialmean_djf","tas_spatialmean_jja"/),wks,opt,opt_pan)
   end do
 
   frame(wks)
@@ -294,7 +294,7 @@ if PLOT_PR_HIST then
     opt_pan@gsnPanelBottom=0.5
   end if
   opt_pan@gsnFrame=False
-  plotCVDPcomparisonMaps(data_dir,"GPCP",(/"pr_spatialmean_djf","pr_spatialmean_jja"/),wks,opt,opt_pan)
+  plotCVDPcomparisonMaps("GPCP",(/"pr_spatialmean_djf","pr_spatialmean_jja"/),wks,opt,opt_pan)
   opt@cnFillPalette="CBR_drywet"
   opt@cnLevelSelectionMode = "ExplicitLevels"   
   opt@cnLevels=(/-5.,-2.,-1.,-0.5,-0.1,0.1,0.5,1.,2.,5./)
@@ -310,7 +310,7 @@ if PLOT_PR_HIST then
     opt_pan@gsnPanelTop=0.5
   end if
   opt_pan@dims=(/1,2/)
-  plotDiffEnsMnMaps(data_dir,expts(1),"GPCP",(/"pr_spatialmean_djf","pr_spatialmean_jja"/),wks,opt,opt_pan)
+  plotDiffEnsMnMaps(expts(1),"GPCP",(/"pr_spatialmean_djf","pr_spatialmean_jja"/),wks,opt,opt_pan)
   if INC_PREIND_wHIST then
     opt@cnFillPalette="CBR_drywet"
     opt@cnLevelSelectionMode = "ExplicitLevels"   
@@ -322,7 +322,7 @@ if PLOT_PR_HIST then
     opt_pan@gsnPanelBottom=0.0
     opt_pan@gsnPanelTop=0.33
     opt_pan@dims=(/1,2/)
-    plotDiffEnsMnMaps(data_dir,expts(0),"GPCP",(/"pr_spatialmean_djf","pr_spatialmean_jja"/),wks,opt,opt_pan)
+    plotDiffEnsMnMaps(expts(0),"GPCP",(/"pr_spatialmean_djf","pr_spatialmean_jja"/),wks,opt,opt_pan)
   end if
   frame(wks)
   delete(wks)
@@ -365,7 +365,7 @@ if PLOT_PR_ANOM then
     opt@gsnRightString=expts(i+2)+(/" DJF"," JJA"/)
     opt_pan@gsnPanelTop=1-(tofloat(i)/n_expts)
     opt_pan@gsnPanelBottom=1-(tofloat(i+1)/n_expts)
-    plotDiffEnsMnMaps(data_dir,expts(i+2),expts(0),(/"pr_spatialmean_djf","pr_spatialmean_jja"/),wks,opt,opt_pan)
+    plotDiffEnsMnMaps(expts(i+2),expts(0),(/"pr_spatialmean_djf","pr_spatialmean_jja"/),wks,opt,opt_pan)
   end do
 
   frame(wks)
@@ -401,7 +401,7 @@ if PLOT_PR_TELE_HIST then
   opt_pan@gsnPanelLabelBar=True
   opt_pan@lbTitleString="Precip. regression (mm/day/~F35~J~F21~C)"
   opt_pan@lbLabelFontHeightF=0.016
-  plotCVDPcomparisonMaps(data_dir,(/"C20-Reanalysis",expts(0),expts(1)/),mode_name+"_pr_regression_mon",plotname,opt,opt_pan)
+  plotCVDPcomparisonMaps((/"C20-Reanalysis",expts(0),expts(1)/),mode_name+"_pr_regression_mon",plotname,opt,opt_pan)
   delete(opt)
 end if;PLOT_PR_TELE_HIST
 
@@ -438,7 +438,7 @@ if any((/PLOT_MIDH,PLOT_LGM,PLOT_FUTURE/)) then
       optpan@lbTitleString="~F35~J~F21~C/~F35~J~F21~C"
       opt@cnLevelSelectionMode = "ExplicitLevels"   
       opt@cnLevels=2*(/-0.1,-0.08,-0.06,-0.04,-.02,0.02,.04,0.06,0.08,.1/)
-      plotDiffEnsMnMaps(data_dir,expts(plots_to_make(i)+2),expts(0),mode_name+"_pattern_mon",wks,opt,optpan)
+      plotDiffEnsMnMaps(expts(plots_to_make(i)+2),expts(0),mode_name+"_pattern_mon",wks,opt,optpan)
       opt@gsnLeftString=(/"b"/)
       opt@cnFillPalette="CBR_drywet"
       opt@cnLevelSelectionMode = "ExplicitLevels"   
@@ -450,14 +450,14 @@ if any((/PLOT_MIDH,PLOT_LGM,PLOT_FUTURE/)) then
       optpan@lbLabelFontHeightF=0.016
       optpan@gsnPanelRight=1.0
       optpan@gsnPanelLeft=0.5      
-      plotDiffEnsMnMaps(data_dir,expts(plots_to_make(i)+2),expts(0),mode_name+"_pr_regression_mon",wks,opt,optpan)
+      plotDiffEnsMnMaps(expts(plots_to_make(i)+2),expts(0),mode_name+"_pr_regression_mon",wks,opt,optpan)
       delete([/wks,opt,optpan/])
     else
       plotname=paper_str+expts(plots_to_make(i)+2)
       plotname@filetype=OUTPUT_TYPE
       plotname@VERBOSE=VERBOSE
       opt@gsnLeftString=(/" "/)
-      plotDiffEnsMnMaps(data_dir,expts(plots_to_make(i)+2),expts(0),mode_name+"_pattern_mon",plotname,opt,optpan)
+      plotDiffEnsMnMaps(expts(plots_to_make(i)+2),expts(0),mode_name+"_pattern_mon",plotname,opt,optpan)
     end if
   end do
 end if;PLOT_MIDH,PLOT_LGM,PLOT_FUTURE
@@ -469,28 +469,28 @@ if PLOT_TS then
   opt_res@tiYAxisString=mode_name+" stddev"
   opt_res@tiXAxisString=""
   opt_res@tiMainString="C20-Reanalysis"
-  plotEnsTimeseries(data_dir,"C20-Reanalysis",mode_name+"_timeseries_mon",ts_opt,paper_str+"C20-Reanalysis_runstddev",opt_res,False)
+  plotEnsTimeseries("C20-Reanalysis",mode_name+"_timeseries_mon",ts_opt,paper_str+"C20-Reanalysis_runstddev",opt_res,False)
   opt_res@tiMainString="Historical Simulations"
-  plotEnsTimeseries(data_dir,"historical",mode_name+"_timeseries_mon",ts_opt,paper_str+"historical_runstddev",opt_res,False)
+  plotEnsTimeseries("historical",mode_name+"_timeseries_mon",ts_opt,paper_str+"historical_runstddev",opt_res,False)
   opt_res@tiMainString="1%CO2 Simulations"
-  plotEnsTimeseries(data_dir,"1pctCO2",mode_name+"_timeseries_mon",ts_opt,paper_str+"1pctCO2_runstddev",opt_res,False)
+  plotEnsTimeseries("1pctCO2",mode_name+"_timeseries_mon",ts_opt,paper_str+"1pctCO2_runstddev",opt_res,False)
   delete(ts_opt@RUN_STDDEV)
   opt_res@tiYAxisString=mode_name
   opt_res@tiMainString="past1000"
-  plotEnsTimeseries(data_dir,"past1000",mode_name+"_timeseries_mon",ts_opt,paper_str+"past100_runstddev",opt_res,False)
+  plotEnsTimeseries("past1000",mode_name+"_timeseries_mon",ts_opt,paper_str+"past100_runstddev",opt_res,False)
 end if;PLOT_TS
 
 if PRINT_TABLE then
   if GCM_DICTIONARY then
-    createTableGCMsExptsYears(data_dir,expts,mode_name+"_timeseries_mon",gcm_dict,"tex",paper_str+mode_name+"_table.tex")
+    createTableGCMsExptsYears(expts,mode_name+"_timeseries_mon",gcm_dict,"tex",paper_str+mode_name+"_table.tex")
   else
-    createTableGCMsExptsYears(data_dir,expts,mode_name+"_timeseries_mon",False,"tex",paper_str+mode_name+"_table.tex")
+    createTableGCMsExptsYears(expts,mode_name+"_timeseries_mon",False,"tex",paper_str+mode_name+"_table.tex")
   end if
 end if ;PRINT_TABLE
 
 do expt_i=0,dimsizes(expts)-3
   this_expt=expts(expt_i+2)
-  fnames_both=find_pair_files_wVar(data_dir,this_expt,"piControl",mode_name+"_timeseries_mon")
+  fnames_both=find_pair_files_wVar(this_expt,"piControl",mode_name+"_timeseries_mon")
   if VERBOSE then
     print(" ")
     print("expt, gcm_name, "+mode_name+"_stddev, control_"+mode_name+"_stddev, percentage change") 
@@ -584,7 +584,7 @@ do expt_i=0,dimsizes(expts)-3
 end do ;BARCHART
 
 if PLOT_MODE_SCATTER then
-  fnames_pictl=find_files_wVar(data_dir,"piControl",mode_name+"_timeseries_mon")
+  fnames_pictl=find_files_wVar("piControl",mode_name+"_timeseries_mon")
   num_pictl=dimsizes(fnames_pictl)
   d_stddev=new(num_pictl*5,float);array to hold variability change
   d_index=new(num_pictl*5,float);array to hold mean state change
@@ -605,7 +605,7 @@ if PLOT_MODE_SCATTER then
     else
       ts_a=ts_opt
     end if
-    fnames_both=find_pair_files_wVar(data_dir,expts(expt_i+2),"piControl",mode_name+"_timeseries_mon")
+    fnames_both=find_pair_files_wVar(expts(expt_i+2),"piControl",mode_name+"_timeseries_mon")
     do gcm_i=0,dimsizes(fnames_both(:,0))-1
       sd_a=stat_ts_var(fnames_both(gcm_i,0),mode_name+"_timeseries_mon","stddev",ts_a)
       sd_b=stat_ts_var(fnames_both(gcm_i,1),mode_name+"_timeseries_mon","stddev",ts_opt)

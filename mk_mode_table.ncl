@@ -13,10 +13,9 @@ load "cvdp_data.functions.ncl"
 PRINT_OUT_CSV=True
 OVERWRITE_INTERIM=True
 
-;data_dir="/data/aod/cvdp_PVar_kira/cvdp_data_CMIP6CMIP5PMIP3"
 data_dir="data"
-models=systemfunc("ls -I README -I C20-Reanalysis -I AWI-ESM-old /data/CMIP/curated_ESGF_replica")
-;models=(/"GISS-E2-R","IPSL-CM5A-LR"/)
+;models=systemfunc("ls -I README -I C20-Reanalysis -I AWI-ESM-old /data/CMIP/curated_ESGF_replica")
+models=(/"ACCESS-ESM1-5","AWI-ESM-1-1-LR","BCC-CSM1-1","CCSM4","CESM2","CNRM-CM5","CNRM-CM6-1","COSMOS-ASO","CSIRO-Mk3-6-0","CSIRO-Mk3L-1-2","EC-EARTH-2-2","EC-Earth3-LR","FGOALS-f3-L","FGOALS-g2","FGOALS-g3","FGOALS-s2","GISS-E2-1-G","GISS-E2-R","HadGEM2-CC","HadGEM2-ES","HadGEM3-GC31-LL","INM-CM4-8","IPSL-CM5A-LR","IPSL-CM6A-LR","KCM1-2-2","MIROC-ES2L","MIROC-ESM","MPI-ESM1-2-LR","MPI-ESM-P","MRI-CGCM3","MRI-ESM2-0","NESM3","NorESM1-F","NorESM2-LM","UofT-CCSM-4"/)
 model_id=ispan(0, dimsizes(models)-1,1)
 models!0="model_id"
 models&model_id=model_id

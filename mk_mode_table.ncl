@@ -8,7 +8,7 @@
 ; run with:
 ; ncl -n data_scripts/mk_mode_tables.ncl
 
-load "data_scripts/cvdp_data.functions.ncl"
+load "cvdp_data.functions.ncl"
 
 PRINT_OUT_CSV=True
 OVERWRITE_INTERIM=True

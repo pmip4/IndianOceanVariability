@@ -14,27 +14,21 @@ PRINT_OUT_CSV=True
 OVERWRITE_INTERIM=True
 
 ;data_dir="/data/aod/cvdp_PVar_kira/cvdp_data_CMIP6CMIP5PMIP3"
-data_dir="/home/p2f-v/public_html/PMIPVarData/cvdp_data"
+data_dir="data"
 models=systemfunc("ls -I README -I C20-Reanalysis -I AWI-ESM-old /data/CMIP/curated_ESGF_replica")
 ;models=(/"GISS-E2-R","IPSL-CM5A-LR"/)
 model_id=ispan(0, dimsizes(models)-1,1)
 models!0="model_id"
 models&model_id=model_id
-expts=(/"piControl","midHolocene","lgm","lig127k","midPliocene-eoi400","midHolocene-cal-adj","lgm-cal-adj","lig127k-cal-adj","1pctCO2","abrupt4xCO2","rcp26","rcp85"/)
+expts=(/"piControl","midHolocene","lgm","lig127k","midPliocene-eoi400","midHolocene-cal-adj","lgm-cal-adj","lig127k-cal-adj","1pctCO2","abrupt4xCO2"/)
 expt_id=ispan(0, dimsizes(expts)-1,1)
 expts!0="expt_id"
 expts&expt_id=expt_id
-timeseries=(/"nino34","iod_timeseries_mon","amo_timeseries_mon","amm_timeseries_mon","atl3_timeseries_mon","tropical_indian_ocean","southern_ocean","south_tropical_atlantic","north_tropical_atlantic"/)
-patterns=(/"pdo_pattern_mon",\ ;20:70°N, 110°E:100°W
-           "ipo_pattern_mon",\ ;40°S:60°N, 110°E:70°W
-           "nam_pattern_mon",\ ;20:90°N, 0:360°E
-           "nao_pattern_djf",\ ;20:80°N, 90°W:40°E
-           "sam_mon"/) ;20:90°S, 0:360°E
-patterns_regions=(/(/(/20.,70./),(/110.,260./)/),\  ;pdo_pattern_mon
-                   (/(/-40.,60./),(/110.,290./)/),\ ;ipo_pattern_mon
-                   (/(/20.,90./),(/0.,359./)/),\  ;nam_pattern_mon
-                   (/(/20.,80./),(/-90.,40./)/),\  ;nao_pattern_djf
-                   (/(/-90.,20./),(/0.,359.5/)/)/) ;sam_mon
+timeseries=(/"nino34","iod_timeseries_mon","tropical_indian_ocean","north_tropical_atlantic","east_eq_indian_ocean"/)
+patterns=(/"tas_spatialmean_ann",\ ;global
+           "pr_spatailmean_ann"/) ;20:90°S, 0:360°E
+patterns_regions=(/(/(/20.,70./),(/110.,260./)/),\  ;overwritten
+                   (/(/-40.,60./),(/110.,290./)/)/) ;ignored
 
 modenames=array_append_record(timeseries, patterns, 0)
 modes_id=ispan(0, dimsizes(modenames)-1,1)

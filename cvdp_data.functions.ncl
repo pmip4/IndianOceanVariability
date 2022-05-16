@@ -1611,7 +1611,7 @@ begin
   gcm_names=new((/dimsizes(expt_names),100/),string) 
   yrs=new((/dimsizes(expt_names),100/),integer) 
   do i=0,dimsizes(expt_names)-1
-    these_filenames=find_files_wVar(expt_names(i),variable_name)
+    these_filenames=find_files_wVar(expt_names(i)+".",variable_name)
     if dimsizes(these_filenames).gt.100 then
       print("createTableGCMsExptsYears:There are so many filenames that you'll need to extend my array")
       exit
@@ -1619,7 +1619,7 @@ begin
     do j=0,dimsizes(these_filenames)-1
       a_nopath=str_get_field(these_filenames(j),str_fields_count(these_filenames(j),"/"),"/")
       gcm=str_get_field(str_sub_str(a_nopath,"_"+expt_names(i),":"),1,":")
-      post_data=str_get_field(str_sub_str(a_nopath,"_enso.",":"),2,":")
+      post_data=str_get_field(str_sub_str(a_nopath,"cvdp_data.",":"),2,":")
       file_years=str_get_field(post_data,1,".")
       file_syear = stringtointeger(str_get_field(file_years,1,"-"))
       file_eyear = stringtointeger(str_get_field(file_years,2,"-"))

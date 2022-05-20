@@ -1766,7 +1766,7 @@ local mapres,plots,ensmn,patt,LeftStrings,RightStrings,CenterStrings,fnames,lat,
 begin
 
   ;Determine verbosity
-  if isatt(opt_res,"VERBOSE").and.(opt_res@VERBOSE) then
+  if isatt(opt_res,"VERBOSE") then
     ;Provides a modicum of more information
     VERBOSE=opt_res@VERBOSE
     delete(opt_res@VERBOSE)
@@ -1861,7 +1861,7 @@ local wks,mapres,panres,plots,ensmn,patt,nvars,LeftStrings,RightStrings,CenterSt
 begin
 
   ;Determine verbosity
-  if isatt(opt_res,"VERBOSE").and.(opt_res@VERBOSE) then
+  if isatt(opt_res,"VERBOSE") then
     ;Provides a modicum of more information
     VERBOSE=opt_res@VERBOSE
     delete(opt_res@VERBOSE)

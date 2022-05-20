@@ -79,19 +79,19 @@ if MAKE_PLOT then
     ;plot iod patterns
     opt_pan@gsnPanelLeft=0.      
     opt_pan@gsnPanelRight=0.5
+    opt@cnFillPalette="BlueDarkRed18"
+    opt@mpLandFillColor="gainsboro"
     opt_pan@lbTitleString="~F35~J~F21~C/~F35~J~F21~C"
     opt@gsnLeftString=plot_letters(expt_i,0)  
     opt@cnLevelSelectionMode = "ExplicitLevels"   
     opt@cnLevels=2*(/-0.1,-0.08,-0.06,-0.04,-.02,0.02,.04,0.06,0.08,.1/)
     plotDiffEnsMnMaps(expts(expt_i),"piControl","iod_pattern_mon",wks,opt,opt_pan)
-    delete(opt@cnLevels)
+    delete([/opt@cnLevels,opt@mpLandFillColor/])
     ;plot iod rainfall 
     opt@gsnLeftString=plot_letters(expt_i,1)
     opt@cnFillPalette="CBR_drywet"
     opt@cnLevelSelectionMode = "ExplicitLevels"   
     opt@cnLevels=(/-0.5,-0.3,-0.1,-0.05,0.05,0.1,0.3,0.5/)
-    opt_pan@gsnFrame=True
-    opt_pan@gsnPanelLabelBar=True
     opt_pan@lbTitleString="mm/day/~F35~J~F21~C"
     opt_pan@lbLabelFontHeightF=0.016
     opt_pan@gsnPanelRight=1.0

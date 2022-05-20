@@ -23,19 +23,12 @@ if MAKE_PLOT then
 else
     OUTPUT_TYPE="png"; either "png" or "pdf"
 end if
-TS_NOT_TAS=False ;if True use SST rather TAS in the figure
 VERBOSE=False ;if True, provides a modicum of more information about whats goign on in the plots - used for debugging mainly.
 
-if TS_NOT_TAS then
-  vars=(/"sst_spatialmean_ann","sst_spatialmean_djf","sst_spatialmean_jja"/)
-  plot_str="plots/mean_sea_temperature_maps"
-else
-  vars=(/"tas_spatialmean_ann","tas_spatialmean_djf","tas_spatialmean_jja"/)
-  plot_str="plots/mean_air_temperature_maps"
-end if
+vars=(/"pr_spatialmean_ann","pr_spatialmean_djf","pr_spatialmean_jja"/)
+plot_str="plots/mean_precipitation_maps"
 
 plot_letters=(/(/"a","b","c"/),(/"d","e","f"/),(/"g","h","i"/),(/"j","k","l"/)/)
-
 
 ;First deal with the data outputting (uses default plotting and creates lots of maps) 
 if OUTPUT_PLOT_DATA then
@@ -70,11 +63,9 @@ if MAKE_PLOT then
     opt@gsnCenterString=""
     opt@gsnRightString=""
     opt@lbLabelBarOn=False
-    opt@cnFillPalette="BlueWhiteOrangeRed"
-    opt@cnLevelSelectionMode = "ManualLevels"   
-    opt@cnMinLevelValF = -8
-    opt@cnMaxLevelValF = 8
-    opt@cnLevelSpacingF = 0.1
+    opt@cnFillPalette="CBR_drywet"
+    opt@cnLevelSelectionMode = "ExplicitLevels"   
+    opt@cnLevels=(/-5.,-2.,-1.,-0.5,-0.1,0.1,0.5,1.,2.,5./)
 
   opt_pan=True
     opt_pan@lbTitleFontHeightF=0.02
@@ -85,7 +76,7 @@ if MAKE_PLOT then
     opt_pan@gsnPanelLabelBar=False
     opt_pan@lbTitleOn=True
     opt_pan@dims=(/1,3/)
-    opt_pan@lbTitleString="Temperature Change (oC)"
+    opt_pan@lbTitleString="Precipitation Change (oC)"
 
   do expt_i=0,dimsizes(expts)-1
     opt_pan@gsnPanelTop=1.-(tofloat(expt_i)/tofloat(dimsizes(expts)))

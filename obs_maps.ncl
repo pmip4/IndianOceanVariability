@@ -32,7 +32,7 @@ else
     OUTPUT_TYPE="png"; either "png" or "pdf"
 end if
 TS_NOT_TAS=True ;if True use SST rather TAS in the figure
-BIAS_not_ABSOLUTE=True ;if True this will plot the ensemble mean bias - rather than the ensemble property 
+BIAS_not_ABSOLUTE=False ;if True this will plot the ensemble mean bias - rather than the ensemble property 
 VERBOSE=False ;if True, provides a modicum of more information about whats goign on in the plots - used for debugging mainly.
 USE_CMIP6_SUBSET_GCMS=False; if True then only use those GCMs Hausfather et al recommend
 ONLY_CMIP6_GCMS=False; if True then only use those GCMs that have done all the runs
@@ -179,8 +179,8 @@ if MAKE_PLOT then
 
   ;Move onto IOD temperatures
   i_opt=opt
-  i_opt@cnMinLevelValF = -0.8
-  i_opt@cnMaxLevelValF = 0.8
+  i_opt@cnMinLevelValF = -0.5
+  i_opt@cnMaxLevelValF = 0.5
   i_opt@cnLevelSpacingF = 0.1
   i_opt@cnFillPalette="CBR_coldhot"
   i_opt_pan=opt_pan

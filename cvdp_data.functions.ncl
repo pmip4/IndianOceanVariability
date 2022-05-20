@@ -1765,9 +1765,20 @@ procedure plot_output_CVDPmap(expt_str:string,variable_name:string,output_string
 local mapres,plots,ensmn,patt,LeftStrings,RightStrings,CenterStrings,fnames,lat,lon,dims,opt_res
 begin
 
+  ;Determine verbosity
+  if isatt(opt_res,"VERBOSE").and.(opt_res@VERBOSE) then
+    ;Provides a modicum of more information
+    VERBOSE=opt_res@VERBOSE
+    delete(opt_res@VERBOSE)
+  else
+    VERBOSE=False
+  end if
+
   ;Creating a new wks called output_string
-  if isatt(output_string,"filetype") then
-    wks=gsn_open_wks(output_string@filetype,output_string)
+  if isatt(opt_res,"filetype") then
+    filetype=opt_res@filetype
+    delete(opt_res@filetype)
+    wks=gsn_open_wks(opt_res@filetype,output_string)
   else
     wks=gsn_open_wks("pdf",output_string)
   end if
@@ -1832,6 +1843,13 @@ begin
 
   plot=gsn_csm_contour_map(wks,ensmn,mapres) 
   delete([/wks,patt,ensmn,dummy/])
+  ;return any delete options from opt_res
+  if isvar("filetype") then
+    opt_res@filetype=filetype
+  end if
+  if VERBOSE then
+    opt_res@VERBOSE=VERBOSE
+  end if
 end;plot_output_CVDPmap
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1842,20 +1860,26 @@ procedure plot_output_DiffEnsMn(expt_str_a:string,expt_str_b:string,variable_nam
 local wks,mapres,panres,plots,ensmn,patt,nvars,LeftStrings,RightStrings,CenterStrings,fnames_both,lat,lon,dummy_for_latlon,opt_resconf_res
 begin
 
+  ;Determine verbosity
+  if isatt(opt_res,"VERBOSE").and.(opt_res@VERBOSE) then
+    ;Provides a modicum of more information
+    VERBOSE=opt_res@VERBOSE
+    delete(opt_res@VERBOSE)
+  else
+    VERBOSE=False
+  end if
+
+
   ;Creating a new wks called output_string
   if isatt(opt_res,"filetype") then
+    filetype=opt_res@filetype
+    delete(opt_res@filetype)
     wks=gsn_open_wks(opt_res@filetype,output_string)
   else
     wks=gsn_open_wks("pdf",output_string)
   end if
 
   ;Look for some major opt_res switches/attributes
-  if isatt(opt_res,"VERBOSE").and.(opt_res@VERBOSE) then
-    ;Provides a modicum of more information
-    VERBOSE=opt_res@VERBOSE
-  else
-    VERBOSE=False
-  end if
   if opt_res.and.isatt(opt_res,"CONSISTENCY") then
     ;this option stipples locations where >2/3 of the model have the same sign 
     CONSISTENCY=opt_res@CONSISTENCY
@@ -2243,4 +2267,12 @@ begin
     delete([/posi_match,diff,posi_ensmn_diff,conf,posi_diff/])
   end if
   delete(wks)
+
+  ;return any delete options from opt_res
+  if isvar("filetype") then
+    opt_res@filetype=filetype
+  end if
+  if VERBOSE then
+    opt_res@VERBOSE=VERBOSE
+  end if
 end;plot_output_DiffEnsMn

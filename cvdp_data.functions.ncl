@@ -1778,7 +1778,7 @@ begin
   if isatt(opt_res,"filetype") then
     filetype=opt_res@filetype
     delete(opt_res@filetype)
-    wks=gsn_open_wks(opt_res@filetype,output_string)
+    wks=gsn_open_wks(filetype,output_string)
   else
     wks=gsn_open_wks("pdf",output_string)
   end if
@@ -1874,7 +1874,7 @@ begin
   if isatt(opt_res,"filetype") then
     filetype=opt_res@filetype
     delete(opt_res@filetype)
-    wks=gsn_open_wks(opt_res@filetype,output_string)
+    wks=gsn_open_wks(filetype,output_string)
   else
     wks=gsn_open_wks("pdf",output_string)
   end if

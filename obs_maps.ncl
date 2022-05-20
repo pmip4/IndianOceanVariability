@@ -19,8 +19,8 @@ gcms_CMIP6=(/"ACCESS-ESM1-5","AWI-ESM-1-1-LR","CESM2","CNRM-CM6-1","EC-Earth3-LR
 gcms_CMIP6_subset=(/"ACCESS-ESM1-5","AWI-ESM-1-1-LR","CNRM-CM6-1","EC-Earth3-LR","FGOALS-f3-L","FGOALS-g3","GISS-E2-1-G","INM-CM4-8","IPSL-CM6A-LR","MIROC-ES2L","MPI-ESM1-2-LR","MRI-ESM2-0","NESM3","NorESM2-LM"/) ;ECS Screen v. likely from Hausfather et al (2022)
 
 ;some plot switches
-MAKE_PLOT=False;if True, this will actually output the plot in it's pretty form
-OUTPUT_PLOT_DATA=True;if True, this will actually output the combined
+MAKE_PLOT=True;if True, this will actually output the plot in it's pretty form
+OUTPUT_PLOT_DATA=False;if True, this will actually output the combined
 if MAKE_PLOT.eq.OUTPUT_PLOT_DATA then 
    print("You set both MAKE_PLOT and OUTPUT_PLOT_DATA to "+MAKE_PLOT+". The code is not set-up for both options to be True, and will do all")
    print("The code is not set-up for both options to be True, and will do all computation and not output anythign is both are False")
@@ -87,22 +87,27 @@ if MAKE_PLOT then
     opt_pan@lbTitleFontHeightF=0.02
     opt_pan@lbLabelFontHeightF=0.016
     opt_pan@gsnFrame=False
+    opt_pan@gsnMaximize=True
 
   if BIAS_not_ABSOLUTE then 
     opt@lbLabelBarOn=True
     opt@lbTitlePosition="Bottom"
     opt_pan@gsnPanelLabelBar=False
-    opt@lbTitleOn=False
+    opt@lbTitleOn=True
   else
     opt@lbLabelBarOn=False
     opt_pan@lbTitlePosition="Right"
     opt_pan@gsnPanelLabelBar=False
-    opt_pan@lbTitleOn=False
+    opt_pan@lbTitleOn=True
     opt_pan@lbOrientation = "vertical"
   end if
 
   ;Rather than immediately sending the plot to a file, this plot first opens a wks and panels within it. 
-  wks=gsn_open_wks(OUTPUT_TYPE,paper_str+"obs_maps")
+  if BIAS_not_ABSOLUTE then
+    wks=gsn_open_wks(OUTPUT_TYPE,paper_str+"_bias")
+  else
+    wks=gsn_open_wks(OUTPUT_TYPE,paper_str+"_absolute")
+  end if
   wks@VERBOSE=VERBOSE
 
   ;Start with the mean temperature
@@ -215,6 +220,7 @@ if MAKE_PLOT then
     ip_opt@gsnLeftString=(/"g"/)
     ip_opt_pan@lbTitleString="Precip. regression (mm/day/~F35~J~F21~C)"
     plotCVDPcomparisonMaps("C20-Reanalysis","iod_pr_regression_mon",wks,ip_opt,ip_opt_pan)
+    delete(ip_opt@cnLevels)
     ip_opt@cnLevels=(/-0.5,-0.3,-0.1,-0.05,0.05,0.1,0.3,0.5/)
     ip_opt_pan@lbTitleString="Bias in pattern (mm/day/~F35~J~F21~C)"
     ip_opt@gsnLeftString=(/"h"/)

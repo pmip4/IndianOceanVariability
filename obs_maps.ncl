@@ -96,10 +96,9 @@ if MAKE_PLOT then
     opt@lbTitleOn=True
   else
     opt@lbLabelBarOn=False
-    opt_pan@lbTitlePosition="Right"
+    opt_pan@lbTitlePosition="Bottom"
     opt_pan@gsnPanelLabelBar=True
     opt_pan@lbTitleOn=True
-    opt_pan@lbOrientation = "vertical"
     opt@gsnRightString=""
     opt_pan@dims=(/1,2/)
   end if
@@ -163,9 +162,9 @@ if MAKE_PLOT then
     p_opt@gsnLeftString=(/"c"/)
     p_opt@lbTitleString="Precipitation (mm/day)"
     plotCVDPcomparisonMaps("C20-Reanalysis","pr_spatialmean_ann",wks,p_opt,p_opt_pan)
-    opt@cnFillPalette="CBR_drywet"
-    opt@cnLevelSelectionMode = "ExplicitLevels"   
-    opt@cnLevels=(/-5.,-2.,-1.,-0.5,-0.1,0.1,0.5,1.,2.,5./)
+    p_opt@cnFillPalette="CBR_drywet"
+    p_opt@cnLevelSelectionMode = "ExplicitLevels"   
+    p_opt@cnLevels=(/-5.,-2.,-1.,-0.5,-0.1,0.1,0.5,1.,2.,5./)
     p_opt@lbTitleString="Precipitation Difference (mm/day)"
     p_opt@gsnLeftString=(/"d"/)
     p_opt@CONSISTENCY=True ;Turn on Stippling

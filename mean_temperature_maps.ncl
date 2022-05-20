@@ -72,9 +72,9 @@ if MAKE_PLOT then
     opt@lbLabelBarOn=False
     opt@cnFillPalette="BlueWhiteOrangeRed"
     opt@cnLevelSelectionMode = "ManualLevels"   
-    opt@cnMinLevelValF = -8
-    opt@cnMaxLevelValF = 8
-    opt@cnLevelSpacingF = 0.1
+    opt@cnMinLevelValF = -6
+    opt@cnMaxLevelValF = 6
+    opt@cnLevelSpacingF = 0.2
     opt@CONSISTENCY=True ;Turn on Stippling
 
 

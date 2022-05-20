@@ -1,0 +1,102 @@
+load "cvdp_data.functions.ncl"
+
+plot_regions=(/(/-35,35/),(/30,130/)/);lat and lons of the edge of the plots (/(/lonW,lonE/),(/latS,latN/)/)
+expts=(/"midHolocene-cal-adj","lig127k-cal-adj","lgm-cal-adj","abrupt4xCO2"/)
+
+;some plot switches
+MAKE_PLOT=True;if True, this will actually output the plot in it's pretty form
+OUTPUT_PLOT_DATA=False;if True, this will actually output the combined
+if MAKE_PLOT.eq.OUTPUT_PLOT_DATA then 
+   print("You set both MAKE_PLOT and OUTPUT_PLOT_DATA to "+MAKE_PLOT+". The code is not set-up for both options to be True, and will do all")
+   print("The code is not set-up for both options to be True, and will do all computation and not output anythign is both are False")
+   exit
+end if
+if MAKE_PLOT then
+    OUTPUT_TYPE="pdf"; either "png" or "pdf"
+else
+    OUTPUT_TYPE="png"; either "png" or "pdf"
+end if
+VERBOSE=False ;if True, provides a modicum of more information about whats goign on in the plots - used for debugging mainly.
+OVERLAY_PREIND=True
+
+expts=(/"midHolocene-cal-adj","lig127k-cal-adj","lgm-cal-adj","abrupt4xCO2"/)
+plot_str="plots/iod_change_maps"
+plot_letters=(/(/"a","b"/),(/"c","d"/),(/"e","f"/),(/"g","h"/),(/"i","j"/),(/"k","l"/)/)
+
+;First deal with the data outputting (uses default plotting and creates lots of maps) 
+if OUTPUT_PLOT_DATA then
+  vars=(/"iod_pr_regression_mon","iod_pattern_mon"/)
+  OPTS=True
+  OPTS@filetype=OUTPUT_TYPE
+  OPTS@VERBOSE=VERBOSE
+  do expt_i=0,dimsizes(expts)-1
+    do var_i=0,2
+        title="summary_data/"+expts(expt_i)+"-piControl_"+vars(var_i)+"_EnsembleMean"
+        plot_output_DiffEnsMn(expts(expt_i),"piControl",vars(var_i),title,OPTS)
+    end do
+  end do
+end if
+
+if MAKE_PLOT then
+  opt=True
+    opt@CONSISTENCY=True
+    opt@OVERLAY_CONTROL=OVERLAY_PREIND
+    opt@OVERLAY_CONTROL_MANUALLEVS=(/-1.,1.,0.2/)
+    opt@mpProjection="CylindricalEqualArea"
+    opt@mpLimitMode="LatLon"
+    opt@lbLabelBarOn=False
+    opt@mpMinLonF=plot_regions(1,0)
+    opt@mpMaxLonF=plot_regions(1,1)
+    opt@mpMinLatF=plot_regions(0,0)
+    opt@mpMaxLatF=plot_regions(0,1)
+    opt@gsnCenterString=""
+    opt@gsnRightString=""
+    opt@lbTitleFontHeightF=0.016
+    opt@lbLabelFontHeightF=0.016
+    opt@gsnStringFontHeightF=0.04
+    opt@gsnCenterString=""  
+    opt@tiMainString=""
+
+  optpan=True
+    optpan@lbTitleFontHeightF=0.01
+    optpan@lbLabelFontHeightF=0.016
+    optpan@gsnFrame=False
+    optpan@gsnPanelLabelBar=True
+
+  wks=gsn_open_wks(OUTPUT_TYPE,paper_str+"pr_reg_"+expts(plots_to_make(i)+2))
+  wks@VERBOSE=VERBOSE
+
+  do expt_i=0,dimsizes(expts)-1
+    opt_pan@gsnPanelTop=1.-(tofloat(expt_i)/tofloat(dimsizes(expts)))
+    opt_pan@gsnPanelBottom=1.-(tofloat(expt_i)/tofloat(dimsizes(expts)))-.25
+    if expt_i.eq.(dimsizes(expts)-1) then 
+      opt_pan@gsnPanelLabelBar=True
+    end if
+    ;plot iod patterns
+    optpan@gsnPanelLeft=0.      
+    optpan@gsnPanelRight=0.5
+    optpan@lbTitleString="~F35~J~F21~C/~F35~J~F21~C"
+    opt@gsnLeftString=plot_letters(expt_i,0)  
+    opt@cnLevelSelectionMode = "ExplicitLevels"   
+    opt@cnLevels=2*(/-0.1,-0.08,-0.06,-0.04,-.02,0.02,.04,0.06,0.08,.1/)
+    plotDiffEnsMnMaps(expts(expt_i),"piControl","iod_pattern_mon",wks,opt,optpan)
+    delete(opt@cnLevels)
+    ;plot iod rainfall 
+    opt@gsnLeftString=plot_letters(expt_i,1)
+    opt@cnFillPalette="CBR_drywet"
+    opt@cnLevelSelectionMode = "ExplicitLevels"   
+    opt@cnLevels=(/-0.5,-0.3,-0.1,-0.05,0.05,0.1,0.3,0.5/)
+    optpan@gsnFrame=True
+    optpan@gsnPanelLabelBar=True
+    optpan@lbTitleString="mm/day/~F35~J~F21~C"
+    optpan@lbLabelFontHeightF=0.016
+    optpan@gsnPanelRight=1.0
+    optpan@gsnPanelLeft=0.5      
+    plotDiffEnsMnMaps(expts(expt_i),"piControl","iod_pr_regression_mon",wks,opt,optpan)
+    delete(opt@cnLevels)
+  end do
+
+  frame(wks)
+  delete(wks)
+end if
+

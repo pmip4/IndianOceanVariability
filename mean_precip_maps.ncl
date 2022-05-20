@@ -66,6 +66,9 @@ if MAKE_PLOT then
     opt@cnFillPalette="CBR_drywet"
     opt@cnLevelSelectionMode = "ExplicitLevels"   
     opt@cnLevels=(/-5.,-2.,-1.,-0.5,-0.1,0.1,0.5,1.,2.,5./)
+    opt@CONSISTENCY=True ;Turn on Stippling
+    opt@OVERLAY_CONTROL=True
+    opt@OVERLAY_CONTROL_MANUALLEVS=(/0,12,2/);ie 0:12:2 mm/day
 
   opt_pan=True
     opt_pan@lbTitleFontHeightF=0.02

@@ -75,6 +75,8 @@ if MAKE_PLOT then
     opt@cnMinLevelValF = -8
     opt@cnMaxLevelValF = 8
     opt@cnLevelSpacingF = 0.1
+    opt@CONSISTENCY=True ;Turn on Stippling
+
 
   opt_pan=True
     opt_pan@lbTitleFontHeightF=0.02

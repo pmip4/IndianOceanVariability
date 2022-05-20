@@ -97,16 +97,18 @@ if MAKE_PLOT then
   else
     opt@lbLabelBarOn=False
     opt_pan@lbTitlePosition="Right"
-    opt_pan@gsnPanelLabelBar=False
+    opt_pan@gsnPanelLabelBar=True
     opt_pan@lbTitleOn=True
     opt_pan@lbOrientation = "vertical"
+    opt@gsnRightString=""
+    opt_pan@dims=(/1,2/)
   end if
 
   ;Rather than immediately sending the plot to a file, this plot first opens a wks and panels within it. 
   if BIAS_not_ABSOLUTE then
-    wks=gsn_open_wks(OUTPUT_TYPE,paper_str+"_bias")
+    wks=gsn_open_wks(OUTPUT_TYPE,paper_str+"bias")
   else
-    wks=gsn_open_wks(OUTPUT_TYPE,paper_str+"_absolute")
+    wks=gsn_open_wks(OUTPUT_TYPE,paper_str+"absolute")
   end if
   wks@VERBOSE=VERBOSE
 
@@ -129,12 +131,12 @@ if MAKE_PLOT then
     t_opt_pan@gsnPanelLeft=0.
     t_opt_pan@gsnPanelRight=0.5
     t_opt@gsnLeftString=(/"a"/)
-    t_opt_pan@lbTitleString="Temperature (~F35~J~F21~C)"
+    t_opt@lbTitleString="Temperature (~F35~J~F21~C)"
     plotCVDPcomparisonMaps("C20-Reanalysis",field,wks,t_opt,t_opt_pan)
     t_opt@cnFillPalette="CBR_coldhot"
     t_opt@cnLevelSelectionMode = "ExplicitLevels"   
     t_opt@cnLevels=(/-5.,-3.,-2.,-1.,-0.5,0.5,1.,2.,3.,5./)
-    t_opt_pan@lbTitleString="Temperature Difference (~F35~J~F21~C)"
+    t_opt@lbTitleString="Temperature Difference (~F35~J~F21~C)"
     t_opt@gsnLeftString=(/"b"/)
     t_opt@CONSISTENCY=True ;Turn on Stippling
     t_opt_pan@gsnPanelLeft=0.5
@@ -159,12 +161,12 @@ if MAKE_PLOT then
     p_opt_pan@gsnPanelLeft=0.
     p_opt_pan@gsnPanelRight=0.5
     p_opt@gsnLeftString=(/"c"/)
-    p_opt_pan@lbTitleString="Precipitation (mm/day)"
+    p_opt@lbTitleString="Precipitation (mm/day)"
     plotCVDPcomparisonMaps("C20-Reanalysis","pr_spatialmean_ann",wks,p_opt,p_opt_pan)
     opt@cnFillPalette="CBR_drywet"
     opt@cnLevelSelectionMode = "ExplicitLevels"   
     opt@cnLevels=(/-5.,-2.,-1.,-0.5,-0.1,0.1,0.5,1.,2.,5./)
-    p_opt_pan@lbTitleString="Precipitation Difference (mm/day)"
+    p_opt@lbTitleString="Precipitation Difference (mm/day)"
     p_opt@gsnLeftString=(/"d"/)
     p_opt@CONSISTENCY=True ;Turn on Stippling
     p_opt_pan@gsnPanelLeft=0.5
@@ -189,12 +191,12 @@ if MAKE_PLOT then
     i_opt_pan@gsnPanelLeft=0.
     i_opt_pan@gsnPanelRight=0.5
     i_opt@gsnLeftString=(/"e"/)
-    i_opt_pan@lbTitleString="Linear Regression on Index (~F35~J~F21~C/~F35~J~F21~C)"
+    i_opt@lbTitleString="Linear Regression on Index (~F35~J~F21~C/~F35~J~F21~C)"
     plotCVDPcomparisonMaps("C20-Reanalysis","iod_pattern_mon",wks,i_opt,i_opt_pan)
     i_opt@cnMinLevelValF = -0.2
     i_opt@cnMaxLevelValF = 0.2
     i_opt@cnLevelSpacingF = 0.04
-    i_opt_pan@lbTitleString="Bias in pattern (~F35~J~F21~C/~F35~J~F21~C)"
+    i_opt@lbTitleString="Bias in pattern (~F35~J~F21~C/~F35~J~F21~C)"
     i_opt@gsnLeftString=(/"f"/)
     i_opt@CONSISTENCY=True ;Turn on Stippling
     i_opt_pan@gsnPanelLeft=0.5
@@ -218,11 +220,11 @@ if MAKE_PLOT then
     ip_opt_pan@gsnPanelLeft=0.
     ip_opt_pan@gsnPanelRight=0.5
     ip_opt@gsnLeftString=(/"g"/)
-    ip_opt_pan@lbTitleString="Precip. regression (mm/day/~F35~J~F21~C)"
+    ip_opt@lbTitleString="Precip. regression (mm/day/~F35~J~F21~C)"
     plotCVDPcomparisonMaps("C20-Reanalysis","iod_pr_regression_mon",wks,ip_opt,ip_opt_pan)
     delete(ip_opt@cnLevels)
     ip_opt@cnLevels=(/-0.5,-0.3,-0.1,-0.05,0.05,0.1,0.3,0.5/)
-    ip_opt_pan@lbTitleString="Bias in pattern (mm/day/~F35~J~F21~C)"
+    ip_opt@lbTitleString="Bias in pattern (mm/day/~F35~J~F21~C)"
     ip_opt@gsnLeftString=(/"h"/)
     ip_opt@CONSISTENCY=True ;Turn on Stippling
     ip_opt_pan@gsnPanelLeft=0.5

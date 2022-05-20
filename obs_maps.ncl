@@ -19,7 +19,7 @@ gcms_CMIP6=(/"ACCESS-ESM1-5","AWI-ESM-1-1-LR","CESM2","CNRM-CM6-1","EC-Earth3-LR
 gcms_CMIP6_subset=(/"ACCESS-ESM1-5","AWI-ESM-1-1-LR","CNRM-CM6-1","EC-Earth3-LR","FGOALS-f3-L","FGOALS-g3","GISS-E2-1-G","INM-CM4-8","IPSL-CM6A-LR","MIROC-ES2L","MPI-ESM1-2-LR","MRI-ESM2-0","NESM3","NorESM2-LM"/) ;ECS Screen v. likely from Hausfather et al (2022)
 
 ;some plot switches
-MAKE_PLOT=True;if True, this will actually output the plot in it's pretty form
+MAKE_PLOT=False;if True, this will actually output the plot in it's pretty form
 OUTPUT_PLOT_DATA=True;if True, this will actually output the combined
 if MAKE_PLOT.eq.OUTPUT_PLOT_DATA then 
    print("You set both MAKE_PLOT and OUTPUT_PLOT_DATA to "+MAKE_PLOT+". The code is not set-up for both options to be True, and will do all")
@@ -46,24 +46,27 @@ paper_str="plots/obs_maps_"
 
 ;First deal with the data outputting (uses default plotting and creates lots of maps) 
 if OUTPUT_PLOT_DATA then
+  OPTS=True
+  OPTS@filetype=OUTPUT_TYPE
+  OPTS@VERBOSE=VERBOSE
   if TS_NOT_TAS then
-    plot_output_CVDPmap("C20-Reanalysis","sst_spatialmean_ann","summary_data/C20-Reanalysis_sst_spatialmean_ann",False)
-    plot_output_CVDPmap(expt,"sst_spatialmean_ann","summary_data/"+expt+"-ensmean_sst_spatialmean_ann",False)
-    plot_output_CVDPmap(expt,"C20-Reanalysis","sst_spatialmean_ann","summary_data/"+expt+"-ensmean-bias_sst_spatialmean_ann",False)
+    plot_output_CVDPmap("C20-Reanalysis","sst_spatialmean_ann","summary_data/C20-Reanalysis_sst_spatialmean_ann",OPTS)
+    plot_output_CVDPmap(expt,"sst_spatialmean_ann","summary_data/"+expt+"-ensmean_sst_spatialmean_ann",OPTS)
+    plot_output_DiffEnsMn(expt,"C20-Reanalysis","sst_spatialmean_ann","summary_data/"+expt+"-ensmean-bias_sst_spatialmean_ann",OPTS)
   else
-    plot_output_CVDPmap("C20-Reanalysis","tas_spatialmean_ann","summary_data/C20-Reanalysis_tas_spatialmean_ann",False)
-    plot_output_CVDPmap(expt,"tas_spatialmean_ann","summary_data/"+expt+"-ensmean_tas_spatialmean_ann",False)
-    plot_output_CVDPmap(expt,"C20-Reanalysis","tas_spatialmean_ann","summary_data/"+expt+"-ensmean-bias_tas_spatialmean_ann",False)
+    plot_output_CVDPmap("C20-Reanalysis","tas_spatialmean_ann","summary_data/C20-Reanalysis_tas_spatialmean_ann",OPTS)
+    plot_output_CVDPmap(expt,"tas_spatialmean_ann","summary_data/"+expt+"-ensmean_tas_spatialmean_ann",OPTS)
+    plot_output_DiffEnsMn(expt,"C20-Reanalysis","tas_spatialmean_ann","summary_data/"+expt+"-ensmean-bias_tas_spatialmean_ann",OPTS)
   end if
-  plot_output_CVDPmap("C20-Reanalysis","pr_spatialmean_ann","summary_data/C20-Reanalysis_pr_spatialmean_ann",False)
-  plot_output_CVDPmap(expt,"pr_spatialmean_ann","summary_data/"+expt+"-ensmean_pr_spatialmean_ann",False)
-  plot_output_CVDPmap(expt,"C20-Reanalysis","pr_spatialmean_ann","summary_data/"+expt+"-ensmean-bias_pr_spatialmean_ann",False)
-  plot_output_CVDPmap("C20-Reanalysis","iod_pattern_mon","summary_data/C20-Reanalysis_iod_pattern_mon",False)
-  plot_output_CVDPmap(expt,"iod_pattern_mon","summary_data/"+expt+"-ensmean_iod_pattern_mon",False)
-  plot_output_CVDPmap(expt,"C20-Reanalysis","iod_pattern_mon","summary_data/"+expt+"-ensmean-bias_iod_pattern_mon",False)
-  plot_output_CVDPmap("C20-Reanalysis","iod_pr_regression_mon","summary_data/C20-Reanalysis_iod_pr_regression_mon",False)
-  plot_output_CVDPmap(expt,"iod_pr_regression_mon","summary_data/"+expt+"-ensmean_iod_pr_regression_mon",False)
-  plot_output_CVDPmap(expt,"C20-Reanalysis","iod_pr_regression_mon","summary_data/"+expt+"-ensmean-bias_iod_pr_regression_mon",False)
+  plot_output_CVDPmap("C20-Reanalysis","pr_spatialmean_ann","summary_data/C20-Reanalysis_pr_spatialmean_ann",OPTS)
+  plot_output_CVDPmap(expt,"pr_spatialmean_ann","summary_data/"+expt+"-ensmean_pr_spatialmean_ann",OPTS)
+  plot_output_DiffEnsMn(expt,"C20-Reanalysis","pr_spatialmean_ann","summary_data/"+expt+"-ensmean-bias_pr_spatialmean_ann",OPTS)
+  plot_output_CVDPmap("C20-Reanalysis","iod_pattern_mon","summary_data/C20-Reanalysis_iod_pattern_mon",OPTS)
+  plot_output_CVDPmap(expt,"iod_pattern_mon","summary_data/"+expt+"-ensmean_iod_pattern_mon",OPTS)
+  plot_output_DiffEnsMn(expt,"C20-Reanalysis","iod_pattern_mon","summary_data/"+expt+"-ensmean-bias_iod_pattern_mon",OPTS)
+  plot_output_CVDPmap("C20-Reanalysis","iod_pr_regression_mon","summary_data/C20-Reanalysis_iod_pr_regression_mon",OPTS)
+  plot_output_CVDPmap(expt,"iod_pr_regression_mon","summary_data/"+expt+"-ensmean_iod_pr_regression_mon",OPTS)
+  plot_output_DiffEnsMn(expt,"C20-Reanalysis","iod_pr_regression_mon","summary_data/"+expt+"-ensmean-bias_iod_pr_regression_mon",OPTS)
 end if
 
 if MAKE_PLOT then

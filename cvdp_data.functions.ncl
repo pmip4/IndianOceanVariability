@@ -1843,16 +1843,16 @@ local wks,mapres,panres,plots,ensmn,patt,nvars,LeftStrings,RightStrings,CenterSt
 begin
 
   ;Creating a new wks called output_string
-  if isatt(output_string,"filetype") then
-    wks=gsn_open_wks(output_string@filetype,output_string)
+  if isatt(opt_res,"filetype") then
+    wks=gsn_open_wks(opt_res@filetype,output_string)
   else
     wks=gsn_open_wks("pdf",output_string)
   end if
 
   ;Look for some major opt_res switches/attributes
-  if isatt(output_string,"VERBOSE").and.(output_string@VERBOSE) then
+  if isatt(opt_res,"VERBOSE").and.(opt_res@VERBOSE) then
     ;Provides a modicum of more information
-    VERBOSE=output_string@VERBOSE
+    VERBOSE=opt_res@VERBOSE
   else
     VERBOSE=False
   end if

@@ -56,43 +56,47 @@ if MAKE_PLOT then
     opt@gsnStringFontHeightF=0.04
     opt@gsnCenterString=""  
     opt@tiMainString=""
+    opt@gsnFrame=False
 
-  optpan=True
-    optpan@lbTitleFontHeightF=0.01
-    optpan@lbLabelFontHeightF=0.016
-    optpan@gsnFrame=False
-    optpan@gsnPanelLabelBar=True
+  opt_pan=True
+    opt_pan@lbTitleFontHeightF=0.01
+    opt_pan@lbLabelFontHeightF=0.016
+    opt_pan@gsnFrame=False
+    opt_pan@gsnPanelLabelBar=True
 
-  wks=gsn_open_wks(OUTPUT_TYPE,paper_str+"pr_reg_"+expts(plots_to_make(i)+2))
+  wks=gsn_open_wks(OUTPUT_TYPE,plot_str)
   wks@VERBOSE=VERBOSE
 
   do expt_i=0,dimsizes(expts)-1
+    if VERBOSE then
+      print("Working on "+expts(expt_i))
+    end if
     opt_pan@gsnPanelTop=1.-(tofloat(expt_i)/tofloat(dimsizes(expts)))
     opt_pan@gsnPanelBottom=1.-(tofloat(expt_i)/tofloat(dimsizes(expts)))-.25
     if expt_i.eq.(dimsizes(expts)-1) then 
       opt_pan@gsnPanelLabelBar=True
     end if
     ;plot iod patterns
-    optpan@gsnPanelLeft=0.      
-    optpan@gsnPanelRight=0.5
-    optpan@lbTitleString="~F35~J~F21~C/~F35~J~F21~C"
+    opt_pan@gsnPanelLeft=0.      
+    opt_pan@gsnPanelRight=0.5
+    opt_pan@lbTitleString="~F35~J~F21~C/~F35~J~F21~C"
     opt@gsnLeftString=plot_letters(expt_i,0)  
     opt@cnLevelSelectionMode = "ExplicitLevels"   
     opt@cnLevels=2*(/-0.1,-0.08,-0.06,-0.04,-.02,0.02,.04,0.06,0.08,.1/)
-    plotDiffEnsMnMaps(expts(expt_i),"piControl","iod_pattern_mon",wks,opt,optpan)
+    plotDiffEnsMnMaps(expts(expt_i),"piControl","iod_pattern_mon",wks,opt,opt_pan)
     delete(opt@cnLevels)
     ;plot iod rainfall 
     opt@gsnLeftString=plot_letters(expt_i,1)
     opt@cnFillPalette="CBR_drywet"
     opt@cnLevelSelectionMode = "ExplicitLevels"   
     opt@cnLevels=(/-0.5,-0.3,-0.1,-0.05,0.05,0.1,0.3,0.5/)
-    optpan@gsnFrame=True
-    optpan@gsnPanelLabelBar=True
-    optpan@lbTitleString="mm/day/~F35~J~F21~C"
-    optpan@lbLabelFontHeightF=0.016
-    optpan@gsnPanelRight=1.0
-    optpan@gsnPanelLeft=0.5      
-    plotDiffEnsMnMaps(expts(expt_i),"piControl","iod_pr_regression_mon",wks,opt,optpan)
+    opt_pan@gsnFrame=True
+    opt_pan@gsnPanelLabelBar=True
+    opt_pan@lbTitleString="mm/day/~F35~J~F21~C"
+    opt_pan@lbLabelFontHeightF=0.016
+    opt_pan@gsnPanelRight=1.0
+    opt_pan@gsnPanelLeft=0.5      
+    plotDiffEnsMnMaps(expts(expt_i),"piControl","iod_pr_regression_mon",wks,opt,opt_pan)
     delete(opt@cnLevels)
   end do
 

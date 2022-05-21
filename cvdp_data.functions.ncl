@@ -391,6 +391,8 @@ end;roughlatlonplot
 ;          ts_opt@DETREND=True removes a linear trend from the timeseries
 ;          ts_opt@RUN_STDDEV=True returns the running standard deviation of the timeseries rather than the timeseries itself
 ;                                 It is caluclated over ts_opt@nstddev timepoints, which defaults to 30 years
+;          ts_opt@SMOOTH=True returns the running mean of the timeseries rather than the timeseries itself
+;                                 It is caluclated over ts_opt@nave timepoints, which defaults to 5 months for monthly fields, and 10 years for annual/seasonal ones
 ;          ts_opt@make_absolute=True will add the Annual Cycle back onto the timeseries (stopping it being anomalies)
 ;          ts_opt@NO_EXIT_ON_ERROR=True will override the default behaviour of failing upon error   
 undef("read_ts")
@@ -618,6 +620,23 @@ begin
     delete([/ts_stddev,nstddev/])
   end if
 
+  if ts_opt.and.isatt(ts_opt,"SMOOTH").and.ts_opt@SMOOTH then
+    if isatt(ts_opt,"nave") then
+      nave=ts_opt@nave
+    else
+      if isdim(var_out,"time").and.(.not.isatt(ts_opt,"SEASON")) then
+        nave=5 ;5 month smoothing
+      else
+        nave=30 ;30 years
+      end if
+    end if
+    ts_smooth=var_out
+    ;set beginning and end to missing
+    ts_smooth=runave(var_out, nave, 0)
+    var_out=(/ts_smooth/)
+    read_ts_note=read_ts_note+" The timeseries has been smoothed with a running mean over "+nave+" points. "
+    delete([/ts_smooth,nave/])
+  end if
 
   var_out@read_ts_note=read_ts_note
   return(var_out)

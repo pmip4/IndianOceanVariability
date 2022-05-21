@@ -10,9 +10,6 @@
 
 load "cvdp_data.functions.ncl"
 
-PRINT_OUT_CSV=True
-OVERWRITE_INTERIM=True
-
 data_dir="data/"
 files=systemfunc("ls "+data_dir+"*.nc")
 files = str_sub_str(files, data_dir, "")
@@ -136,10 +133,35 @@ do fi = 0, dimsizes(files)-1
   variables(20)=stat_ts_var(data_dir+files(fi),"ipcc_SAS_lnd_pr","stddev",ts_opt_djf)
 
   ;compute correlations
-  nino34=read_ts(data_dir+files(fi),"nino34",ts_opt)
-  iod=read_ts(data_dir+files(fi),"iod_timeseries_mon",ts_opt)
-  iobm=read_ts(data_dir+files(fi),"tropical_indian_ocean",ts_opt)
-  eeio=read_ts(data_dir+files(fi),"east_eq_indian_ocean",ts_opt)
+  ts_opt_smooth=ts_opt
+  ts_opt_smooth@SMOOTH=True
+  ts_opt_smooth@nave=5
+  nino34=read_ts(data_dir+files(fi),"nino34",ts_opt_smooth)
+  iod=read_ts(data_dir+files(fi),"iod_timeseries_mon",ts_opt_smooth)
+  iobm=read_ts(data_dir+files(fi),"tropical_indian_ocean",ts_opt_smooth)
+  eeio=read_ts(data_dir+files(fi),"east_eq_indian_ocean",ts_opt_smooth)
+
+  headers(21)="r(nino34,iod)"
+  if (.not.all(ismissing(nino34))).and.(.not.all(ismissing(iod))) then
+    variables(21)=escorc(nino34,iod)   
+  else
+    variables(21)=variables@_FillValue   
+  end if
+
+  headers(22)="r(iod,iobm)"
+  if .not.all(ismissing(iobm)).and..not.all(ismissing(iod)) then
+    variables(22)=regCoef(iobm,iod)   
+  else
+    variables(22)=variables@_FillValue   
+  end if
+  
+  headers(23)="r(iod,eeio)"
+  if .not.all(ismissing(eeio)).and..not.all(ismissing(iod)) then
+    variables(23)=regCoef(eeio,iod)   
+  else
+    variables(23)=variables@_FillValue   
+  end if
+  delete([/nino34,iod,iobm,eeio/])
 
   ;write out to file
   exists=ind(.not.ismissing(headers))

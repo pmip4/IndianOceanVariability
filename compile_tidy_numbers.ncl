@@ -14,8 +14,9 @@ PRINT_OUT_CSV=True
 OVERWRITE_INTERIM=True
 
 data_dir="data/"
-;files=systemfunc("ls -I README -I C20-Reanalysis -I AWI-ESM-old /data/CMIP/curated_ESGF_replica")
-files=(/"INM-CM4-8_historical.cvdp_data.1850-2014.nc"/)
+files=systemfunc("ls "+data_dir+"*.nc")
+files = str_sub_str(files, data_dir, "")
+;files=(/"INM-CM4-8_historical.cvdp_data.1850-2014.nc"/) ;select a single file for testing...
 
 
 ;define the filename for the outputting
@@ -36,7 +37,11 @@ do fi = 0, dimsizes(files)-1
   name_strs0 = str_split(name_parts(0),"_")
   name_strs2 = str_split(name_parts(2),"-")
   variables(0)=name_strs0(0) ;model
-  variables(1)=name_strs0(1) ;experiment
+  if dimsizes(name_strs0).eq.1 then
+    variables(1)="observations" ;experiment
+  else
+    variables(1)=name_strs0(1) ;experiment
+  end if
   variables(2)=toint(name_strs2(1))-toint(name_strs2(0)) ;years
 
   ts_opt=True
@@ -130,6 +135,12 @@ do fi = 0, dimsizes(files)-1
   headers(20)="SAS rain djf stddev"
   variables(20)=stat_ts_var(data_dir+files(fi),"ipcc_SAS_lnd_pr","stddev",ts_opt_djf)
 
+  ;compute correlations
+  nino34=read_ts(data_dir+files(fi),"nino34",ts_opt)
+  iod=read_ts(data_dir+files(fi),"iod_timeseries_mon",ts_opt)
+  iobm=read_ts(data_dir+files(fi),"tropical_indian_ocean",ts_opt)
+  eeio=read_ts(data_dir+files(fi),"east_eq_indian_ocean",ts_opt)
+
   ;write out to file
   exists=ind(.not.ismissing(headers))
   if fi.eq.0 then
@@ -139,5 +150,5 @@ do fi = 0, dimsizes(files)-1
   vlist=[/str_join(variables(exists),",")/]
   write_table(fname, "a", vlist, "%s ")
 
-  delete([/headers,variables,ts_opt,ts_opt_abs,ts_opt_jja,ts_opt_djf/])
+  delete([/headers,variables,ts_opt,ts_opt_abs,ts_opt_jja,ts_opt_djf,ts_opt_jja_abs,ts_opt_djf_abs/])
 end do

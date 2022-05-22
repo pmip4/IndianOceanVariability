@@ -147,21 +147,21 @@ do fi = 0, dimsizes(files)-1
   iobm=read_ts(data_dir+files(fi),"tropical_indian_ocean",ts_opt_smooth)
   eeio=read_ts(data_dir+files(fi),"east_eq_indian_ocean",ts_opt_smooth)
 
-  headers(21)="r(nino34,iod)"
+  headers(21)="r(nino34.iod)"
   if (.not.all(ismissing(nino34))).and.(.not.all(ismissing(iod))) then
     variables(21)=escorc(nino34,iod)   
   else
     variables(21)=variables@_FillValue   
   end if
 
-  headers(22)="r(iod,iobm)"
+  headers(22)="r(iod.iobm)"
   if .not.all(ismissing(iobm)).and..not.all(ismissing(iod)) then
     variables(22)=escorc(iobm,iod)   
   else
     variables(22)=variables@_FillValue   
   end if
   
-  headers(23)="r(iod,eeio)"
+  headers(23)="r(iod.eeio)"
   if .not.all(ismissing(eeio)).and..not.all(ismissing(iod)) then
     variables(23)=escorc(eeio,iod)   
   else

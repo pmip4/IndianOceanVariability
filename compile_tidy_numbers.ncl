@@ -52,12 +52,13 @@ do fi = 0, dimsizes(files)-1
 
   ;Global Mean TAS
   headers(3)="GMTemp"
-  if .not.isfilevar(data_dir+files(fi),"tas_spatialmean_ann") then
+  fil=addfile(data_dir+files(fi),"r")
+  if .not.isfilevar(fil,"tas_spatialmean_ann") then
     variables(3)=variables@_FillValue
   else
     variables(3)=extract_latlon_areastat(data_dir+files(fi),"tas_spatialmean_ann",(/-90.,90./),(/0.,360./),"mean")
   end if
-
+  delete(fil)
 
   ;IOD mean gradient
   ts_opt_abs=ts_opt

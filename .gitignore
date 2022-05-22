@@ -130,3 +130,4 @@ dmypy.json
 
 # Any data files
 .nc
+data/INM-CM4-8_historical.cvdp_data.1850-2014.nc

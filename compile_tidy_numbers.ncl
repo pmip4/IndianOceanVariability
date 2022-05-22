@@ -52,7 +52,12 @@ do fi = 0, dimsizes(files)-1
 
   ;Global Mean TAS
   headers(3)="GMTemp"
-  variables(3)=extract_latlon_areastat(data_dir+files(fi),"tas_spatialmean_ann",(/-90.,90./),(/0.,360./),"mean")
+  if .not.isfilevar(data_dir+files(fi),"tas_spatialmean_ann") then
+    variables(3)=variables@_FillValue
+  else
+    variables(3)=extract_latlon_areastat(data_dir+files(fi),"tas_spatialmean_ann",(/-90.,90./),(/0.,360./),"mean")
+  end if
+
 
   ;IOD mean gradient
   ts_opt_abs=ts_opt
@@ -150,14 +155,14 @@ do fi = 0, dimsizes(files)-1
 
   headers(22)="r(iod,iobm)"
   if .not.all(ismissing(iobm)).and..not.all(ismissing(iod)) then
-    variables(22)=regCoef(iobm,iod)   
+    variables(22)=escorc(iobm,iod)   
   else
     variables(22)=variables@_FillValue   
   end if
   
   headers(23)="r(iod,eeio)"
   if .not.all(ismissing(eeio)).and..not.all(ismissing(iod)) then
-    variables(23)=regCoef(eeio,iod)   
+    variables(23)=escorc(eeio,iod)   
   else
     variables(23)=variables@_FillValue   
   end if

@@ -173,10 +173,10 @@ do fi = 0, dimsizes(files)-1
   exists=ind(.not.ismissing(headers))
   if fi.eq.0 then
     hlist=[/str_join(headers(exists),",")/]
-    write_table(fname, "w", hlist, "%s ")
+    write_table(fname, "w", hlist, "%s")
   end if 
   vlist=[/str_join(variables(exists),",")/]
-  write_table(fname, "a", vlist, "%s ")
+  write_table(fname, "a", vlist, "%s")
 
   delete([/headers,variables,ts_opt,ts_opt_abs,ts_opt_jja,ts_opt_djf,ts_opt_jja_abs,ts_opt_djf_abs,ts_opt_smooth/])
 end do

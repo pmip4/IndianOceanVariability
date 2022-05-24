@@ -1,4 +1,4 @@
-name: climate
+name: my-cli-py
 channels:
   - conda-forge
 dependencies:
@@ -17,4 +17,3 @@ dependencies:
   - regionmask=0.8.0
   - urllib3=1.26.8
   - xarray=0.21.1
-  - ncl

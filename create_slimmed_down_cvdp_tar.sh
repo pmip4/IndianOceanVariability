@@ -50,8 +50,8 @@ function hasSSTvars {
 }  
 
 
-CVDP_DATA_DIR=`pwd`"/../data/full_files"
-REPO_DATA_DIR=`pwd`"/../data" #relative to here
+CVDP_DATA_DIR=`pwd`"/data/full_files"
+REPO_DATA_DIR=`pwd`"/data" #relative to here
 plotting_vars="iod_pr_regression_mon,iod_pattern_mon,pr_spatialmean_ann,pr_spatialmean_djf,pr_spatialmean_jja,sst_spatialmean_ann,sst_spatialmean_djf,sst_spatialmean_jja,tas_spatialmean_ann,tas_spatialmean_djf,tas_spatialmean_jja,nino34,iod_timeseries_mon,tropical_indian_ocean,north_tropical_atlantic,east_eq_indian_ocean,monsoon_rain_SAS,monsoon_area_SAS,ipcc_SAS_lnd_pr"
 IOD_vars="iod_pattern_mon,iod_pr_regression_mon,iod_tas_regression_mon,iod_timeseries_mon"
 SST_vars="sst_spatialmean_ann,sst_spatialmean_djf,sst_spatialmean_jja,tropical_indian_ocean,east_eq_indian_ocean,nino34"

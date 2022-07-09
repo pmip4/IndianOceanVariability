@@ -1697,7 +1697,7 @@ begin
   end if
 
   if output_format.eq."tex" then
-    header=(/"\begin{table}{t}","\begin{tabular}{ c | "+str_join(conform(expt_names," c ",-1),"|")+" } ",\
+    header=(/"\begin{table}","\begin{tabular}{ c | "+str_join(conform(expt_names," c ",-1),"|")+" } ",\
              "\hline","Model&"+str_join(expt_names,"&")+"\\ \hline"/) 
     write_table(output_filename, "w", [/header/], "%s")
     do i=0,dimsizes(unique_gcm_names)-1

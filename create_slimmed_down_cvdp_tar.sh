@@ -59,7 +59,7 @@ PR_vars="pr_spatialmean_ann,pr_spatialmean_djf,pr_spatialmean_jja,monsoon_rain_S
 TAS_vars="tas_spatialmean_ann,tas_spatialmean_djf,tas_spatialmean_jja,ipcc_SAS_lnd_tas"
 
 cd $CVDP_DATA_DIR
-ncfiles=`ls *{piControl,midHolocene-cal-adj,lgm-cal-adj,lig127k-cal-adj,abrupt4xCO2}.cvdp_data.*-*.nc`
+ncfiles=`ls *{piControl,midHolocene-cal-adj,lgm-cal-adj,lig127k-cal-adj,abrupt4xCO2}.cvdp_data.*-*.nc C20*nc`
 echo $ncfiles
 cd $REPO_DATA_DIR
 for ncfile in $ncfiles

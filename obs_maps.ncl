@@ -36,7 +36,7 @@ BIAS_not_ABSOLUTE=False ;if True this will plot the ensemble mean bias - rather 
 VERBOSE=False ;if True, provides a modicum of more information about whats goign on in the plots - used for debugging mainly.
 USE_CMIP6_SUBSET_GCMS=False; if True then only use those GCMs Hausfather et al recommend
 ONLY_CMIP6_GCMS=False; if True then only use those GCMs that have done all the runs
-USE_HIST_not_PREIND=True; adds the preindustrial to all the plots including the Historical 
+USE_HIST_not_PREIND=False; adds the preindustrial to all the plots including the Historical 
 if USE_HIST_not_PREIND then
   expt="historical"
 else

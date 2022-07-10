@@ -63,6 +63,7 @@ do fi = 0, dimsizes(files)-1
   ;IOD mean gradient
   ts_opt_abs=ts_opt
   ts_opt_abs@make_absolute=True
+  ts_opt_abs@DETREND=False
   headers(4)="DMI mean"
   variables(4)=stat_ts_var(data_dir+files(fi),"iod_timeseries_mon","mean",ts_opt_abs)
 

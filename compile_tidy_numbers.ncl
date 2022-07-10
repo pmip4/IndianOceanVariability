@@ -39,7 +39,7 @@ do fi = 0, dimsizes(files)-1
   else
     variables(1)=name_strs0(1) ;experiment
   end if
-  variables(2)=toint(name_strs2(1))-toint(name_strs2(0)) ;years
+  variables(2)=toint(name_strs2(1))-toint(name_strs2(0))+1 ;years
 
   ts_opt=True
   ts_opt@NO_EXIT_ON_ERROR=True

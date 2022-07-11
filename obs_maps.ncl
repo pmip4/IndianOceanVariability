@@ -19,8 +19,8 @@ gcms_CMIP6=(/"ACCESS-ESM1-5","AWI-ESM-1-1-LR","CESM2","CNRM-CM6-1","EC-Earth3-LR
 gcms_CMIP6_subset=(/"ACCESS-ESM1-5","AWI-ESM-1-1-LR","CNRM-CM6-1","EC-Earth3-LR","FGOALS-f3-L","FGOALS-g3","GISS-E2-1-G","INM-CM4-8","IPSL-CM6A-LR","MIROC-ES2L","MPI-ESM1-2-LR","MRI-ESM2-0","NESM3","NorESM2-LM"/) ;ECS Screen v. likely from Hausfather et al (2022)
 
 ;some plot switches
-MAKE_PLOT=False;if True, this will actually output the plot in it's pretty form
-OUTPUT_PLOT_DATA=True;if True, this will actually output the combined
+MAKE_PLOT=True;if True, this will actually output the plot in it's pretty form
+OUTPUT_PLOT_DATA=False;if True, this will actually output the combined
 if MAKE_PLOT.eq.OUTPUT_PLOT_DATA then 
    print("You set both MAKE_PLOT and OUTPUT_PLOT_DATA to "+MAKE_PLOT+". The code is not set-up for both options to be True, and will do all")
    print("The code is not set-up for both options to be True, and will do all computation and not output anythign is both are False")

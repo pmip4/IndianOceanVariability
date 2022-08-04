@@ -83,11 +83,13 @@ if MAKE_PLOT then
     opt@cnLevelSelectionMode = "ManualLevels"   
     opt@tiMainString=""
     opt@gsnCenterString=""
+    opt@cnMissingValFillColor = "grey" ; color missing values rather than just land.
+    opt@cnMissingValFillPattern = "SolidFill"
   opt_pan=True
     opt_pan@lbTitleFontHeightF=0.02
     opt_pan@lbLabelFontHeightF=0.016
     opt_pan@gsnFrame=False
-    opt_pan@gsnMaximize=True
+    opt_pan@gsnMaximize=False
 
   if BIAS_not_ABSOLUTE then 
     opt@lbLabelBarOn=True
@@ -95,9 +97,9 @@ if MAKE_PLOT then
     opt_pan@gsnPanelLabelBar=False
     opt@lbTitleOn=True
   else
-    opt@lbLabelBarOn=False
+    opt@lbLabelBarOn=True
     opt_pan@lbTitlePosition="Bottom"
-    opt_pan@gsnPanelLabelBar=True
+    opt_pan@gsnPanelLabelBar=False
     opt_pan@lbTitleOn=True
     opt@gsnRightString=""
     opt_pan@dims=(/1,2/)
@@ -190,7 +192,7 @@ if MAKE_PLOT then
     i_opt_pan@gsnPanelLeft=0.
     i_opt_pan@gsnPanelRight=0.5
     i_opt@gsnLeftString=(/"e"/)
-    i_opt@lbTitleString="Linear Regression on Index (~F35~J~F21~C/~F35~J~F21~C)"
+    i_opt@lbTitleString="SST Regressed onto DMI (~F35~J~F21~C/~F35~J~F21~C)"
     plotCVDPcomparisonMaps("C20-Reanalysis","iod_pattern_mon",wks,i_opt,i_opt_pan)
     i_opt@cnMinLevelValF = -0.2
     i_opt@cnMaxLevelValF = 0.2
@@ -203,7 +205,7 @@ if MAKE_PLOT then
     plotDiffEnsMnMaps(expt,"C20-Reanalysis","iod_pattern_mon",wks,i_opt,i_opt_pan)
   else
     i_opt@gsnLeftString=(/"e","f"/)
-    i_opt_pan@lbTitleString="Linear Regression on Index (~F35~J~F21~C/~F35~J~F21~C)"
+    i_opt_pan@lbTitleString="SST Regressed onto DMI (~F35~J~F21~C/~F35~J~F21~C)"
     plotCVDPcomparisonMaps((/"C20-Reanalysis",expt/),"iod_pattern_mon",wks,i_opt,i_opt_pan)
   end if
 

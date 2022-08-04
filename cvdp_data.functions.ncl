@@ -1483,6 +1483,14 @@ begin
       conf=ensmn_diff ;number of models showing same sign as ensmn ...
       posi_match=dim_num(posi_diff.eq.conform(posi_diff,posi_ensmn_diff,(/0,1/)))
       conf=(/tofloat(posi_match)/tofloat(nsims)/)
+      ;replace with missing data if all the values are identical
+      if RATIO then
+        num_ones=dim_num(diff(lat|:,lon|:,gcm|:).eq.1)
+        conf=where(posi_match.eq.num_ones,conf@_FillValue,conf)
+        delete(num_ones)
+      else
+        conf=where(dim_sum_n(diff,0).eq.diff(lat|:,lon|:,gcm|0),conf@_FillValue,conf) 
+      end if 
       conf_plots(var_i)=gsn_csm_contour(wks,conf,conf_res)
       overlay(plots(var_i),conf_plots(var_i))
       delete([/posi_match,diff,posi_ensmn_diff,conf,posi_diff/])

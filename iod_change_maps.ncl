@@ -80,6 +80,8 @@ if MAKE_PLOT then
     opt_pan@gsnPanelLeft=0.      
     opt_pan@gsnPanelRight=0.5
     opt@cnFillPalette="BlueDarkRed18"
+    opt@cnMissingValFillColor = "grey" ; color missing values rather than just land.
+    opt@cnMissingValFillPattern = "SolidFill"
     opt@mpLandFillColor="gainsboro"
     opt_pan@lbTitleString="~F35~J~F21~C/~F35~J~F21~C"
     opt@gsnLeftString=plot_letters(expt_i,0)  

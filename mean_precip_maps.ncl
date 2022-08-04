@@ -82,14 +82,17 @@ if MAKE_PLOT then
     opt_pan@lbTitleString="Precipitation Change (oC)"
 
   do expt_i=0,dimsizes(expts)-1
-    opt_pan@gsnPanelTop=1.-(tofloat(expt_i)/tofloat(dimsizes(expts)))
-    opt_pan@gsnPanelBottom=1.-(tofloat(expt_i)/tofloat(dimsizes(expts)))-.25
+    opt_pan@gsnPanelTop=1.-0.9*(tofloat(expt_i)/tofloat(dimsizes(expts)))
+    opt_pan@gsnPanelBottom=1.-0.9*(tofloat(expt_i)/tofloat(dimsizes(expts)))-(0.9/tofloat(dimsizes(expts)))
     opt@gsnLeftString=plot_letters(expt_i,:)
-    if expt_i.eq.(dimsizes(expts)-1) then 
-      opt_pan@gsnPanelLabelBar=True
-    end if
     plotDiffEnsMnMaps(expts(expt_i),"piControl",vars,wks,opt,opt_pan)
   end do
+  opt_pan@gsnPanelTop=0.1
+  opt_pan@gsnPanelBottom=0.0
+  opt_pan@gsnPanelLabelBar=True
+  opt@gsnDraw=False
+  plotDiffEnsMnMaps(expts(0),"piControl",vars,wks,opt,opt_pan)
+
   frame(wks)
   delete(wks)
 end if

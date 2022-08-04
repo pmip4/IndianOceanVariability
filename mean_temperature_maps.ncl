@@ -65,13 +65,13 @@ if MAKE_PLOT then
     opt@mpMaxLonF=plot_regions(1,1)
     opt@mpMinLatF=plot_regions(0,0)
     opt@mpMaxLatF=plot_regions(0,1)
-    opt@cnLevelSelectionMode = "ManualLevels"   
     opt@tiMainString=""
     opt@gsnCenterString=""
     opt@gsnRightString=""
     opt@lbLabelBarOn=False
-    opt@cnFillPalette="BlueWhiteOrangeRed"
-    opt@cnLevelSelectionMode = "ManualLevels"   
+    opt@cnFillPalette="temp_19lev"
+    opt@cnLevelSelectionMode = "ExplicitLevels"   
+    opt@cnLevels=(/-5.,-4.,-3.,-2.,-1.,-.75,-0.5,-0.25,-0.1,0.1,0.25,0.5,0.75,1.,2.,3.,4.,5./)
     opt@cnMinLevelValF = -6
     opt@cnMaxLevelValF = 6
     opt@cnLevelSpacingF = 0.2
@@ -90,14 +90,16 @@ if MAKE_PLOT then
     opt_pan@lbTitleString="Temperature Change (oC)"
 
   do expt_i=0,dimsizes(expts)-1
-    opt_pan@gsnPanelTop=1.-(tofloat(expt_i)/tofloat(dimsizes(expts)))
-    opt_pan@gsnPanelBottom=1.-(tofloat(expt_i)/tofloat(dimsizes(expts)))-.25
+    opt_pan@gsnPanelTop=1.-0.9*(tofloat(expt_i)/tofloat(dimsizes(expts)))
+    opt_pan@gsnPanelBottom=1.-0.9*(tofloat(expt_i)/tofloat(dimsizes(expts)))-(0.9/tofloat(dimsizes(expts)))
     opt@gsnLeftString=plot_letters(expt_i,:)
-    if expt_i.eq.(dimsizes(expts)-1) then 
-      opt_pan@gsnPanelLabelBar=True
-    end if
     plotDiffEnsMnMaps(expts(expt_i),"piControl",vars,wks,opt,opt_pan)
   end do
+  opt_pan@gsnPanelTop=0.1
+  opt_pan@gsnPanelBottom=0.0
+  opt_pan@gsnPanelLabelBar=True
+  opt@gsnDraw=False
+  plotDiffEnsMnMaps(expts(0),"piControl",vars,wks,opt,opt_pan)
   frame(wks)
   delete(wks)
 end if

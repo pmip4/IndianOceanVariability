@@ -1602,14 +1602,14 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
      inkscape:zoom="2.1588542"
-     inkscape:cx="277.2304"
-     inkscape:cy="192.2316"
+     inkscape:cx="277.462"
+     inkscape:cy="182.04101"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g4312">
+     inkscape:current-layer="g4510">
     <inkscape:page
        x="0"
        y="0"
@@ -1945,11 +1945,13 @@
            xml:space="preserve"
            transform="scale(1,-1)"
            style="font-variant:normal;font-weight:normal;font-size:12px;font-family:DejaVuSans;-inkscape-font-specification:DejaVuSans;writing-mode:lr-tb;fill:#262626;fill-opacity:1;fill-rule:nonzero;stroke:none"
-           id="text4514"><tspan
-             x="0 7.5840001 15.168 18.708 28.152 31.968 38.220001 42.924 50.543999 58.164001 65.543999"
-             y="0"
+           id="text4514"
+           x="-73.650185"
+           y="-0.34740651"><tspan
+             x="-73.650185"
+             y="-0.34740651"
              sodipodi:role="line"
-             id="tspan4512">EEIO stddev</tspan></text>
+             id="tspan4512">Change in EEIO SSTA Std Dev. (°C)</tspan></text>
       </g>
     </g>
     <g

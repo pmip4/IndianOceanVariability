@@ -4,9 +4,9 @@
 <svg
    version="1.1"
    id="svg15586"
-   width="524.71002"
-   height="372.45407"
-   viewBox="0 0 524.71002 372.45407"
+   width="576"
+   height="384"
+   viewBox="0 0 576 384"
    sodipodi:docname="IOBM.svg"
    inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
    inkscape:export-filename="IOBM.png"
@@ -1605,19 +1605,22 @@
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer4">
+     inkscape:current-layer="g15766">
     <inkscape:page
        x="0"
        y="0"
        id="page15592"
-       width="524.71002"
-       height="372.45407" />
+       width="576"
+       height="384"
+       inkscape:export-filename="IOBM.png"
+       inkscape:export-xdpi="199.973"
+       inkscape:export-ydpi="199.973" />
   </sodipodi:namedview>
   <g
      id="g15594"
      inkscape:groupmode="layer"
      inkscape:label="Page 1"
-     transform="matrix(1.3333333,0,0,-1.3333333,-10.797877,379.61226)">
+     transform="matrix(1.3333333,0,0,-1.3333333,0,384)">
     <g
        id="g15684"
        transform="translate(0,-10.5)">
@@ -1636,7 +1639,7 @@
        transform="translate(0,-10.5)" />
     <path
        d="M 54,114.96882 H 388.8"
-       style="fill:none;stroke:#050a05;stroke-width:0.99975;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:2.99925, 0.99975;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:none;stroke:#050a05;stroke-width:0.99975;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:10;stroke-dasharray:2.99925005,0.99975002;stroke-dashoffset:0;stroke-opacity:1"
        id="path11936" />
     <g
        id="g15600"
@@ -4954,8 +4957,7 @@
   <g
      inkscape:groupmode="layer"
      id="layer4"
-     inkscape:label="key"
-     transform="translate(-10.797877,-4.3877397)">
+     inkscape:label="key">
     <g
        id="g7114"
        style="display:inline"

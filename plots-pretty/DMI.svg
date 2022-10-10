@@ -1591,20 +1591,23 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="true"
      inkscape:zoom="2.0989583"
-     inkscape:cx="276.32755"
-     inkscape:cy="185.33003"
-     inkscape:window-width="1920"
-     inkscape:window-height="1009"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
+     inkscape:cx="276.80397"
+     inkscape:cy="186.04467"
+     inkscape:window-width="958"
+     inkscape:window-height="1000"
+     inkscape:window-x="953"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
      inkscape:current-layer="layer1">
     <inkscape:page
        x="0"
        y="0"
        id="page15"
        width="576"
-       height="384" />
+       height="384"
+       inkscape:export-filename=".\Page 1.png"
+       inkscape:export-xdpi="199.973"
+       inkscape:export-ydpi="199.973" />
     <inkscape:grid
        type="xygrid"
        id="grid6509" />

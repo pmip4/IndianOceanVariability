@@ -170,6 +170,22 @@ do fi = 0, dimsizes(files)-1
   end if
   delete([/nino34,iod,iobm,eeio/])
 
+  ;IOD Period
+  headers(24)="IOD Period"
+  variables(24)=stat_ts_var(data_dir+files(fi),"iod_timeseries_mon","dominant_period_interann",ts_opt)
+
+  ;ENSO Period
+  headers(25)="ENSO Period"
+  variables(25)=stat_ts_var(data_dir+files(fi),"nino34","dominant_period_interann",ts_opt)
+ 
+  ;IOD Period
+  headers(26)="IOBM Period"
+  variables(26)=stat_ts_var(data_dir+files(fi),"tropical_indian_ocean","dominant_period_interann",ts_opt)
+
+  ;IOD Period
+  headers(27)="EEIO Period"
+  variables(27)=stat_ts_var(data_dir+files(fi),"east_eq_indian_ocean","dominant_period_interann",ts_opt)
+  
   ;write out to file
   exists=ind(.not.ismissing(headers))
   if fi.eq.0 then

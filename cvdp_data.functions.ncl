@@ -653,7 +653,7 @@ function stat_ts_var(name_wfullpath:string,variable_name:string,stat_name_in:str
 local name_wfullpath,variable_name,ts_opt,fil,poss_stats,stat_name
 begin
   ;read in variable and perform some checks.
-  poss_stats=(/"mean","stddev","skew","kurtosis","pcvar","AnnCycAmp","stddev_bandpass_2-8yrs"/)
+  poss_stats=(/"mean","stddev","skew","kurtosis","pcvar","AnnCycAmp","stddev_bandpass_2-8yrs","dominant_period_interann","dominant_period"/)
   if .not.any(poss_stats.eq.stat_name_in) then
     print("stat_ts_var: The only possible statistics accepted are "+str_join(poss_stats,","))
     exit
@@ -670,40 +670,65 @@ begin
     nwgt  = 2*offset+1                            
     low_thres = 1/(8.*12)                 ; freq for period of 8 yrs (1/months)
     hi_thres = 1/(2.*12)                  ; freq for period of 2 yrs (1/months)
-    wgts_interann  = filwgts_lanczos (nwgt,2,low_thres,hi_thres,sigma)
+    wgts_interann  = filwgts_lanczos(nwgt,2,low_thres,hi_thres,sigma)
     var_in=wgt_runave(var_in,wgts_interann,0)
     stat_name="stddev"
   end if
   
   if .not.all(ismissing(var_in)) then  
-    if stat_name.eq."AnnCycAmp" then      
-      if .not.isatt(var_in,"AnnCycle") then
-        stat_out=default_fillvalue("float")
-        stat_out@_FillValue=default_fillvalue("float")
+    if (stat_name.eq."dominant_period_interann").or.(stat_name.eq."dominant_period") then
+      ; determine number of datapoint per year
+      if isdim(var_in,"time") then
+        n_in_year=12.
       else
-        stat_out=max(var_in@AnnCycle)-min(var_in@AnnCycle)
-      end if
-    else   
-      if stat_name.eq."pcvar" then      
-        pcvar=str_squeeze(str_sub_str(var_in@pcvar,"%"," "))
-        stat_out=stringtofloat(pcvar)
+        n_in_year=1
+      end if      
+      ;calculate power spectra ;using most values from Brierley (2015, PlioMIP ENSO)
+      ; but detrending will be done beforehand if requested, so iopt=0
+      sdof = specx_anal(var_in,0,5,0.10)
+      spectrum=(/sdof@spcx/n_in_year/)
+      frq=1./(sdof@frq*n_in_year)   
+      if (stat_name.eq."dominant_period_interann") then
+        interann=ind(frq.ge.1.2.and.frq.lt.8)
+        interann_frq=frq(interann)
+        stat_out=interann_frq(maxind(spectrum(interann)))
       else
-        stats=dim_stat4(var_in)
-        stat_ind=ind(poss_stats.eq.stat_name)
-        if stat_ind.gt.0.and.(all(var_in.eq.stats(0))) then
-          ;If all the values are identical, only the mean is relevant
-          stat_out=default_fillvalue("float")
-          stat_out@_FillValue=default_fillvalue("float")
-        else
-          if stat_name.eq."stddev" then          
-            stat_out=sqrt(stats(stat_ind))
-          else
-            stat_out=stats(stat_ind)
-          end if
-        end if 
+        stat_out=frq(maxind(spectrum))
       end if
       copy_VarAtts(var_in,stat_out)
       stat_out@stat=stat_name
+    else
+      if stat_name.eq."AnnCycAmp" then      
+        if .not.isatt(var_in,"AnnCycle") then
+          stat_out=default_fillvalue("float")
+          stat_out@_FillValue=default_fillvalue("float")
+        else
+          stat_out=max(var_in@AnnCycle)-min(var_in@AnnCycle)
+        end if
+        copy_VarAtts(var_in,stat_out)
+        stat_out@stat=stat_name
+      else   
+        if stat_name.eq."pcvar" then      
+          pcvar=str_squeeze(str_sub_str(var_in@pcvar,"%"," "))
+          stat_out=stringtofloat(pcvar)
+        else
+          stats=dim_stat4(var_in)
+          stat_ind=ind(poss_stats.eq.stat_name)
+          if stat_ind.gt.0.and.(all(var_in.eq.stats(0))) then
+            ;If all the values are identical, only the mean is relevant
+            stat_out=default_fillvalue("float")
+            stat_out@_FillValue=default_fillvalue("float")
+          else
+            if stat_name.eq."stddev" then          
+              stat_out=sqrt(stats(stat_ind))
+            else
+              stat_out=stats(stat_ind)
+            end if
+          end if 
+        end if
+        copy_VarAtts(var_in,stat_out)
+        stat_out@stat=stat_name
+      end if
     end if
   else
     stat_out=default_fillvalue("float")
